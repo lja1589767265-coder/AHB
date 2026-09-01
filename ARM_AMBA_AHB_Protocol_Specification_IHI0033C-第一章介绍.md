@@ -26,7 +26,10 @@
 - [12. 本章边界与后续阅读](#12-本章边界与后续阅读)
 - [13. 资料来源](#13-资料来源)
 
-## 1. 学完本章应该掌握什么
+<a id="1-学完本章应该掌握什么"></a>
+<details open>
+<summary><strong>1. 学完本章应该掌握什么</strong></summary>
+
 
 读完第一章后，应当能够回答：
 
@@ -38,7 +41,13 @@
 6. `HREADY` 和 `HRESP` 分别回答什么问题？
 7. AHB-Lite、AHB5 和本文档 Issue C 是什么关系？
 
-## 2. AHB 是什么
+
+</details>
+
+<a id="2-ahb-是什么"></a>
+<details>
+<summary><strong>2. AHB 是什么</strong></summary>
+
 
 AMBA AHB 是一种适合**高性能、可综合设计**的总线接口协议。它定义 Manager、Interconnect 和 Subordinate 等组件之间如何通信。（IHI 0033C，1.1 节，第 1-14 页）
 
@@ -54,7 +63,13 @@ AMBA AHB 是一种适合**高性能、可综合设计**的总线接口协议。�
 
 > <span style="color:#ffb454"><strong>理解提示：</strong></span> AHB 规定的是组件之间的接口和传输规则，不等于一块固定结构的“总线模块”。实际系统可以根据 Manager 和 Subordinate 的数量选择不同的 Interconnect 实现。
 
-## 3. AHB 系统的组成
+
+</details>
+
+<a id="3-ahb-系统的组成"></a>
+<details>
+<summary><strong>3. AHB 系统的组成</strong></summary>
+
 
 ### 3.1 总体数据流
 
@@ -111,7 +126,13 @@ Multiplexor 从多个 Subordinate 的读数据和响应中选择当前有效的�
 
 当系统有两个或更多 Subordinate 时，需要一个集中式 Subordinate-to-Manager Multiplexor。
 
-## 4. 单 Manager 与多 Manager
+
+</details>
+
+<a id="4-单-manager-与多-manager"></a>
+<details>
+<summary><strong>4. 单 Manager 与多 Manager</strong></summary>
+
 
 | 系统形态 | 必需功能 | 第一章强调的重点 |
 | --- | --- | --- |
@@ -124,7 +145,13 @@ Multiplexor 从多个 Subordinate 的读数据和响应中选择当前有效的�
 >
 > <span style="color:#ffb454"><strong>理解提示：</strong></span> Figure 1-1 只画出了主要地址、数据总线和典型的数据路由，并没有画出全部 AHB 信号。因此不能仅凭这张图推导完整 RTL 端口表。
 
-## 5. AHB-Lite、AHB5 与 Issue C
+
+</details>
+
+<a id="5-ahb-liteahb5-与-issue-c"></a>
+<details>
+<summary><strong>5. AHB-Lite、AHB5 与 Issue C</strong></summary>
+
 
 | 规范修订 | 第一章给出的含义 |
 | --- | --- |
@@ -143,7 +170,13 @@ Issue C 新增或更新的主题包括（IHI 0033C，1.2 节 Revision history，
 
 > <span style="color:#ffb454"><strong>重要提醒：</strong></span> Figure 1-2 和 Figure 1-3 没有画出 AHB5 增加的信号，不能把图中的端口集合当作完整的 AHB5 接口定义。完整信号表应查看第二章和附录 A。
 
-## 6. 一次 AHB 传输怎样工作
+
+</details>
+
+<a id="6-一次-ahb-传输怎样工作"></a>
+<details>
+<summary><strong>6. 一次 AHB 传输怎样工作</strong></summary>
+
 
 ### 6.1 Manager 先描述请求
 
@@ -164,14 +197,33 @@ Manager 通过地址和控制信号描述一次传输，至少表达：
 
 ### 6.2 地址阶段与数据阶段
 
-每次传输由两个阶段组成（IHI 0033C，1.3 节，第 1-18 页）：
+每次传输由两个阶段组成（IHI 0033C，1.3 节，第 1-18 页）。在无等待的基本传输中，地址阶段通常占一个 HCLK 周期；但前一笔传输的数据阶段如果插入等待，下一笔传输的地址与控制会被保持，因此其地址阶段也会被动延长。
 
-| 阶段 | 持续时间 | 主要任务 | 延长方式 |
-| --- | --- | --- | --- |
-| Address phase | 1 个地址与控制周期 | Manager 给出地址及控制信息，Subordinate 采样 | 不能 |
-| Data phase | 1 个或多个周期 | 传送写数据或返回读数据和响应 | 可以；Subordinate 输出 <span style="color:#ffb454"><code>HREADYOUT=LOW</code></span>，由 Interconnect 汇总为系统侧 <span style="color:#ffb454"><code>HREADY=LOW</code></span> |
+```mermaid
+flowchart LR
+    A["<b>Address phase</b><br/>通常 1 个地址与控制周期<br/>可受前一笔传输等待影响而被动延长<br/><code>HADDR</code> · 控制信号"] --> B["<b>Data phase</b><br/>至少 1 个周期<br/>传送 <code>HWDATA</code> 或返回 <code>HRDATA</code> 与响应"]
+    B --> C{"<b>Subordinate 准备好了吗？</b><br/><code>HREADYOUT</code>"}
+    C -->|"LOW：继续等待"| D["<b>Wait state</b><br/>Interconnect 汇总为<br/><code>HREADY=LOW</code><br/>数据阶段继续延长"]
+    D --> C
+    C -->|"HIGH：完成"| E["<b>传输完成</b><br/><code>HREADY=HIGH</code><br/>进入下一笔传输"]
 
-地址阶段不能被 Subordinate 延长，因此所有 Subordinate 都必须具备在规定时间采样地址与控制信息的能力。（IHI 0033C，1.3 节，第 1-18 页）
+    classDef fixed fill:#17202b,stroke:#4ea1ff,color:#ffffff;
+    classDef data fill:#17202b,stroke:#63d297,color:#ffffff;
+    classDef wait fill:#2b2418,stroke:#ffb454,color:#ffffff;
+    class A fixed;
+    class B,E data;
+    class C,D wait;
+```
+
+> **时序提示：** 上图是按逻辑步骤绘制的概念流程，不是逐周期时序图。AHB 具有流水线结构：一笔传输的数据阶段通常与下一笔传输的地址阶段重叠；若 `HREADY=LOW`，下一笔地址与控制必须保持。
+
+图中要抓住三个关系：
+
+- <span style="color:#4ea1ff"><strong>目标 Subordinate 不能主动延长自己的地址阶段。</strong></span> 地址阶段通常为一个周期；若前一笔传输的数据阶段等待，下一笔传输的地址与控制会被保持，从而使其地址阶段被动延长。对于有效的非 IDLE 传输，Subordinate 只有在 <code>HSELx=HIGH</code> 且 <code>HREADY=HIGH</code> 时才正式采样地址和控制信息。
+- <span style="color:#63d297"><strong>数据阶段至少一个周期，可以持续多个周期。</strong></span> 这里传送写数据，或返回读数据和响应。
+- <span style="color:#ffb454"><strong>等待状态插入在当前传输的数据阶段。</strong></span> Subordinate 输出 `HREADYOUT=LOW`，Interconnect 生成系统侧 `HREADY=LOW`；这会延长当前数据阶段，并连带保持下一笔传输的地址与控制。`HREADY=HIGH` 时，当前数据阶段才完成。
+
+目标 Subordinate 不能主动要求延长自己的地址阶段，因此所有 Subordinate 都必须具备在有效传输的 `HSELx=HIGH` 且 `HREADY=HIGH` 时采样地址与控制信息的能力。若前一笔传输正在等待，下一笔地址阶段可能被动保持多个周期。（IHI 0033C，1.3 节，第 1-18 页；Chapter 3，3.1 节，第 3-28～3-29 页）
 
 数据阶段至少占一个周期。如果 Subordinate 尚未准备好，它将 <span style="color:#ffb454"><code>HREADYOUT</code></span> 保持为 LOW；Interconnect 汇总后把系统侧 <span style="color:#ffb454"><code>HREADY</code></span> 置为 LOW，插入等待状态。当 <span style="color:#63d297"><code>HREADY=HIGH</code></span> 时，表示当前数据阶段可以完成。（IHI 0033C，1.3 节，第 1-18 页；连接关系见 4.1～4.3 节）
 
@@ -185,14 +237,20 @@ Manager 通过地址和控制信号描述一次传输，至少表达：
 ### 6.4 `HREADY` 与 `HRESP`
 
 - <span style="color:#4ea1ff"><code>HREADYOUT</code></span>：由目标 Subordinate 驱动，报告自己的数据阶段是否完成；它只对 Interconnect 的返回路径有效。
-- <span style="color:#4ea1ff"><code>HREADY</code></span>：由 Interconnect 根据当前传输选择并汇总 <span style="color:#4ea1ff"><code>HREADYOUT</code></span>，送给 Manager 和系统侧 Subordinate，回答：**这笔传输现在完成了吗？**
+- <span style="color:#4ea1ff"><code>HREADY</code></span>：由 Interconnect 根据当前数据阶段的选择生成，送给 Manager 和系统侧 Subordinate，回答：**当前数据阶段中的传输完成了吗？** 从流水线的地址阶段看，它对应的是前一笔地址阶段传输的完成状态。
 - <span style="color:#4ea1ff"><code>HRESP</code></span>：由目标 Subordinate 提供并经 Interconnect 返回，回答：**这笔传输成功还是失败？**
 
 <span style="color:#ffb454">不要用 <code>HRESP</code> 表示“还没准备好”，也不要用 <code>HREADY</code> 表示“访问成功”。</span> 完成状态和结果状态是两个不同维度。
 
 > <span style="color:#ffb454"><strong>理解提示：</strong></span> Subordinate 接口图中可见 <span style="color:#4ea1ff"><code>HREADYOUT</code></span>，系统返回路径中可见 <span style="color:#4ea1ff"><code>HREADY</code></span>。可以先把它们理解为“Subordinate 给出的就绪结果”和“Interconnect 选择后送回系统的就绪结果”；精确连接规则在第四章展开。
 
-## 7. 三张接口图怎么读
+
+</details>
+
+<a id="7-三张接口图怎么读"></a>
+<details>
+<summary><strong>7. 三张接口图怎么读</strong></summary>
+
 
 ### 7.1 Manager 接口
 
@@ -205,7 +263,7 @@ Manager 通过地址和控制信号描述一次传输，至少表达：
 ```mermaid
 flowchart TD
     A["<b>第一步｜发起请求</b><br/>Manager 输出地址与控制信息<br/><code>HADDR</code> · <code>HWRITE</code> · <code>HSIZE</code><br/><code>HBURST</code> · <code>HPROT</code> · <code>HTRANS</code>"] --> B["<b>第二步｜地址译码</b><br/>Decoder 根据 <code>HADDR</code><br/>选择目标 Subordinate<br/>输出 <code>HSELx</code>"]
-    B --> C["<b>第三步｜接收请求</b><br/>目标 Subordinate 接收地址与控制<br/><code>HSELx</code> · <code>HADDR</code> · <code>HREADY</code>"]
+    B --> C["<b>第三步｜接收请求</b><br/>有效非 IDLE 传输中，目标 Subordinate 在 <code>HSELx=HIGH</code> 且 <code>HREADY=HIGH</code> 时采样地址与控制<br/><code>HSELx</code> · <code>HADDR</code> · <code>HREADY</code>"]
     C --> D{"<b>第四步</b><br/>读还是写？"}
     D -->|"写"| E["<b>写操作</b><br/>Manager 输出写数据<br/><code>HWDATA</code><br/>Subordinate 执行写入"]
     D -->|"读"| F["<b>读操作</b><br/>Subordinate 执行读取<br/>输出 <code>HRDATA</code>"]
@@ -217,10 +275,10 @@ flowchart TD
 
 这张图可以按一次传输的流程来读：
 
-1. **第一步：Manager 发出请求。** Manager 从右侧输出 `HADDR`、`HWRITE`、`HSIZE`、`HBURST`、`HPROT`、`HTRANS` 和 `HMASTLOCK`，共同描述目标地址、读写方向、传输大小、Burst 属性和保护属性。
-2. **第二步：系统执行访问。** Interconnect 或目标 Subordinate 根据这些地址与控制信息确定这笔传输的处理对象。`HCLK` 提供时序，`HRESETn` 提供复位。
+1. **第一步：Manager 发出请求。** Manager 从右侧输出 `HADDR`、`HWRITE`、`HSIZE`、`HBURST`、`HPROT`、`HTRANS` 和 `HMASTLOCK`，共同描述目标地址、读写方向、传输大小、Burst 属性、保护属性以及是否属于锁定序列。
+2. **第二步：系统执行访问。** Decoder/Interconnect 根据地址产生 `HSELx`，确定这笔有效传输的目标 Subordinate；目标 Subordinate 只在被选中且 `HREADY=HIGH` 时采样地址与控制。`HCLK` 提供时序，`HRESETn` 提供复位。
 3. **第三步：传送数据。** 如果是写操作，Manager 从右侧输出 `HWDATA`；如果是读操作，Subordinate 将结果通过左侧的 `HRDATA` 返回 Manager。
-4. **第四步：返回传输结果。** <span style="color:#4ea1ff"><code>HREADY</code></span> 告诉 Manager 当前传输是否完成，<span style="color:#4ea1ff"><code>HRESP</code></span> 告诉 Manager 传输成功还是失败。若 <span style="color:#ffb454"><code>HREADY=LOW</code></span>，数据阶段还需要继续等待。
+4. **第四步：返回传输结果。** <span style="color:#4ea1ff"><code>HREADY</code></span> 告诉 Manager 当前数据阶段的传输是否完成，<span style="color:#4ea1ff"><code>HRESP</code></span> 告诉 Manager 传输成功还是失败。若 <span style="color:#ffb454"><code>HREADY=LOW</code></span>，数据阶段还需要继续等待，并会保持下一笔传输的地址与控制。
 
 因此，图中的核心方向是：**右侧发起请求，系统完成访问，左侧返回读数据和传输结果。**
 
@@ -231,7 +289,7 @@ flowchart TD
 | 信号 | 作用 | 初步理解 |
 | --- | --- | --- |
 | `HSIZE[2:0]` | 指示一次传输的数据大小 | 例如字节、半字、字等；常见编码为 `000`=1 byte、`001`=2 bytes、`010`=4 bytes。完整编码和对齐要求见 Chapter 3。 |
-| `HPROT[3:0]` | 提供访问保护属性 | 用于描述访问类型，例如指令/数据、特权/非特权等。AHB5 可扩展更多内存类型属性，具体含义见 Chapter 3。 |
+| `HPROT` | 提供访问保护属性 | 基础配置为 `HPROT[3:0]`；Issue C/AHB5 的 `HPROT_WIDTH` 可为 0、4 或 7，支持扩展内存类型时可使用 `HPROT[6:0]`。具体含义见 Chapter 3。 |
 | `HTRANS[1:0]` | 指示当前传输的类型 | `IDLE` 表示无传输，`BUSY` 表示在 Burst 中插入一个忙周期，`NONSEQ` 表示单次传输或 Burst 的第一拍，`SEQ` 表示 Burst 的后续拍。具体编码和等待期间的变化规则见 Chapter 3。 |
 
 可以把它们记成：
@@ -253,13 +311,19 @@ flowchart TD
 从 Subordinate 视角看：
 
 - <span style="color:#4ea1ff"><code>HSELx</code></span>、地址、控制和 <span style="color:#4ea1ff"><code>HWDATA</code></span> 都是输入；
-- 输入侧的 <span style="color:#4ea1ff"><code>HREADY</code></span> 是 Interconnect 汇总后的系统级完成指示，让 Subordinate 知道当前数据阶段是否还在等待；
+- 输入侧的 <span style="color:#4ea1ff"><code>HREADY</code></span> 是 Interconnect 生成的系统级完成指示，让 Subordinate 知道当前数据阶段是否还在等待；
 - <span style="color:#4ea1ff"><code>HRDATA</code></span>、<span style="color:#4ea1ff"><code>HREADYOUT</code></span> 和 <span style="color:#4ea1ff"><code>HRESP</code></span> 是输出，分别返回读数据、数据阶段完成状态和传输结果；
 - <span style="color:#4ea1ff"><code>HREADYOUT</code></span> 先送回 Interconnect，Interconnect 再根据当前选择生成系统侧 <span style="color:#4ea1ff"><code>HREADY</code></span>。
 
 观察重点是：**Subordinate 只有在被选中时才响应目标传输，并负责给出数据阶段的完成状态与结果。**
 
-## 8. 容易混淆的概念
+
+</details>
+
+<a id="8-容易混淆的概念"></a>
+<details>
+<summary><strong>8. 容易混淆的概念</strong></summary>
+
 
 ### 8.1 Decoder 与 Arbiter
 
@@ -276,12 +340,12 @@ flowchart TD
 ### 8.3 `HREADY` 与 `HRESP`
 
 - <span style="color:#ffb454"><code>HREADYOUT=LOW</code></span>：目标 Subordinate 尚未完成数据阶段，请求继续等待。
-- <span style="color:#ffb454"><code>HREADY=LOW</code></span>：Interconnect 汇总后的系统级结果，表示数据阶段还要继续等待。
+- <span style="color:#ffb454"><code>HREADY=LOW</code></span>：Interconnect 生成的系统级结果，表示当前数据阶段还要继续等待；它同时用于让各 Subordinate 知道前一笔传输是否已经完成。
 - <span style="color:#4ea1ff"><code>HRESP</code></span>：说明传输最终是成功还是失败。
 
 ### 8.4 Address phase 与 Data phase
 
-- 地址阶段固定为一个周期，<span style="color:#ffb454">不能由 Subordinate 延长</span>。
+- 地址阶段通常为一个周期，<span style="color:#ffb454">目标 Subordinate 不能主动延长</span>；前一笔数据阶段的等待可能被动延长下一笔地址阶段。
 - 数据阶段可以有等待状态，因此可能持续多个周期。
 
 ### 8.5 AHB 与 APB
@@ -294,7 +358,13 @@ flowchart TD
 
 规范为了说明方便使用 32 位数据总线。AHB 允许其他数据总线宽度，Issue C 也允许可配置的地址总线宽度。<span style="color:#ffb454">图中的 <code>[31:0]</code> 是示例配置，不是所有系统都必须固定为 32 位。</span>
 
-## 9. 术语表
+
+</details>
+
+<a id="9-术语表"></a>
+<details>
+<summary><strong>9. 术语表</strong></summary>
+
 
 | 官方术语 | 常见旧称/中文 | 本章中的作用 |
 | --- | --- | --- |
@@ -306,19 +376,31 @@ flowchart TD
 | Address phase | 地址阶段 | 传递地址和控制信息 |
 | Data phase | 数据阶段 | 传递读写数据并完成响应 |
 | <span style="color:#4ea1ff"><code>HREADYOUT</code></span> | Subordinate 就绪输出 | Subordinate 向 Interconnect 报告数据阶段是否完成 |
-| <span style="color:#4ea1ff"><code>HREADY</code></span> | 系统级就绪信号 | Interconnect 汇总后送给 Manager 和 Subordinate，指示传输是否完成 |
+| <span style="color:#4ea1ff"><code>HREADY</code></span> | 系统级就绪信号 | Interconnect 生成后送给 Manager 和 Subordinate，指示当前数据阶段中的传输是否完成 |
 | <span style="color:#4ea1ff"><code>HRESP</code></span> | 响应信号 | Subordinate 提供并经 Interconnect 返回，指示传输成功或失败 |
 | Wait state | 等待状态 | 延长数据阶段 |
 | Burst | 突发传输 | 连续完成一组相关传输 |
 
-## 10. 本章学习口诀
+
+</details>
+
+<a id="10-本章学习口诀"></a>
+<details>
+<summary><strong>10. 本章学习口诀</strong></summary>
+
 
 > <span style="color:#63d297">Manager 发请求，Subordinate 作响应；</span>  
 > <span style="color:#63d297">Decoder 选目标，MUX 选返回；</span>  
-> <span style="color:#63d297">地址阶段一周期，数据阶段可等待；</span>  
-> <span style="color:#63d297"><code>HREADY</code> 管完成，<code>HRESP</code> 管成败。</span>
+> <span style="color:#63d297">地址阶段通常一周期，前一等待可保持；</span>  
+> <span style="color:#63d297"><code>HREADY</code> 管当前数据阶段完成，<code>HRESP</code> 管成败。</span>
 
-## 11. 自测题
+
+</details>
+
+<a id="11-自测题"></a>
+<details>
+<summary><strong>11. 自测题</strong></summary>
+
 
 先独立回答，再展开参考答案。
 
@@ -355,7 +437,7 @@ flowchart TD
 <details>
 <summary>5. 为什么 Subordinate 也接收 <code>HREADY</code>？</summary>
 
-> `HREADY` 是 Interconnect 汇总后的系统级传输完成指示，不只是 Manager 使用的信号。Subordinate 需要通过输入的 `HREADY` 知道当前数据阶段是否已经完成：当 `HREADY=LOW` 时，当前传输仍在等待，地址和控制流水线不能推进；当 `HREADY=HIGH` 时，当前数据阶段可以结束并进入下一笔传输。更详细的信号连接和时序说明见[为什么 Subordinate 也接收 `HREADY`](为什么Subordinate也接收HREADY.md)。
+> `HREADY` 是 Interconnect 生成的系统级传输完成指示，不只是 Manager 使用的信号。Subordinate 需要通过输入的 `HREADY` 知道当前数据阶段是否已经完成：当 `HREADY=LOW` 时，当前数据阶段仍在等待，下一笔地址和控制必须保持；当 `HREADY=HIGH` 时，当前数据阶段可以结束，下一笔地址和控制才可在该时刻正式推进。更详细的信号连接和时序说明见[为什么 Subordinate 也接收 `HREADY`](为什么Subordinate也接收HREADY.md)。
 
 </details>
 
@@ -366,11 +448,17 @@ flowchart TD
 
 </details>
 
-## 12. 本章边界与后续阅读
+
+</details>
+
+<a id="12-本章边界与后续阅读"></a>
+<details>
+<summary><strong>12. 本章边界与后续阅读</strong></summary>
+
 
 第一章只负责建立总体结构和传输模型。以下细节不能只凭本章完成设计：
 
-- 每个信号的完整定义和可选性：阅读 Chapter 2 和 Appendix A；
+- 每个信号的完整定义和可选性：阅读独立的[第二章信号描述精读](ARM_AMBA_AHB_Protocol_Specification_IHI0033C-第二章信号描述.md)和 Appendix A；
 - `HTRANS`、`HBURST`、`HSIZE`、等待传输及详细时序：阅读 Chapter 3；
 - Decoder、Multiplexor、`HREADYOUT` 到 `HREADY` 的连接：阅读 Chapter 4；
 - `HRESP` 的响应时序：阅读 Chapter 5；
@@ -379,7 +467,13 @@ flowchart TD
 
 学完本章后，最合适的下一步是阅读第二章的信号表，再进入第三章分析基本传输时序。
 
-## 13. 资料来源
+
+</details>
+
+<a id="13-资料来源"></a>
+<details>
+<summary><strong>13. 资料来源</strong></summary>
+
 
 - [AMBA AHB Protocol Specification, Arm IHI 0033C](ARM_AMBA_AHB_Protocol_Specification_IHI0033C.pdf)，Issue C，ID090921，2021 年 9 月 15 日；本文精读 Chapter 1 Introduction，PDF 第 13-18 页（文档页码 1-13～1-18）。
 - 本文对 `HREADYOUT`、`HREADY`、Decoder 和 Multiplexor 连接关系的补充说明参考同一规范 Chapter 4，并已在对应段落标明超出第一章的阅读边界。
@@ -387,3 +481,5 @@ flowchart TD
 ---
 
 本文是对 Arm IHI 0033C 第一章的中文学习整理，不替代官方规范。实现或验证 AHB 兼容设计时，应以原始 PDF 的规范性描述为准。
+
+</details>

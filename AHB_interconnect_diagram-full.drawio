@@ -1,0 +1,739 @@
+<mxfile host="Electron" agent="Codex">
+  <diagram id="ahb-full-interconnect" name="AHB Common Signal Map">
+    <mxGraphModel dx="2866" dy="1503" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2400" pageHeight="1550" background="#ffffff" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="clock-reset" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#222222;strokeWidth=2;fontFamily=Arial;fontSize=22;fontStyle=1;" value="Clock / Reset" vertex="1">
+          <mxGeometry height="90" width="240" x="40" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="manager" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#222222;strokeWidth=2;fontFamily=Arial;fontSize=25;" value="Manager" vertex="1">
+          <mxGeometry height="1290" width="300" x="40" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="decoder" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#222222;strokeWidth=2;fontFamily=Arial;fontSize=25;" value="Decoder" vertex="1">
+          <mxGeometry height="360" width="340" x="650" y="500" as="geometry" />
+        </mxCell>
+        <mxCell id="mux" parent="1" style="shape=trapezoid;perimeter=trapezoidPerimeter;direction=east;size=0.2;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#222222;strokeWidth=2;fontFamily=Arial;fontSize=22;" value="Multiplexor" vertex="1">
+          <mxGeometry height="330" width="280" x="700" y="1120" as="geometry" />
+        </mxCell>
+        <mxCell id="sub1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#222222;strokeWidth=2;fontFamily=Arial;fontSize=25;" value="Subordinate 1" vertex="1">
+          <mxGeometry height="280" width="360" x="1700" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="sub2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#222222;strokeWidth=2;fontFamily=Arial;fontSize=25;" value="Subordinate 2" vertex="1">
+          <mxGeometry height="280" width="360" x="1700" y="540" as="geometry" />
+        </mxCell>
+        <mxCell id="sub3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#222222;strokeWidth=2;fontFamily=Arial;fontSize=25;" value="Subordinate 3" vertex="1">
+          <mxGeometry height="280" width="360" x="1700" y="900" as="geometry" />
+        </mxCell>
+        <mxCell id="mux-select-label" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=none;fontFamily=Arial;fontSize=22;align=center;verticalAlign=middle;" value="Multiplexor&lt;br&gt;select" vertex="1">
+          <mxGeometry height="85" width="240" x="700" y="925" as="geometry" />
+        </mxCell>
+        <mxCell id="example-width-note" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=1;fontFamily=Arial;fontSize=14;align=center;verticalAlign=middle;" value="Example widths only: ADDR_WIDTH=32, DATA_WIDTH=32, HPROT_WIDTH=4, HBURST_WIDTH=3" vertex="1">
+          <mxGeometry height="34" width="840" x="390" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="hclk-trunk" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=none;startArrow=none;fontFamily=Arial;fontSize=15;fontStyle=1;labelBackgroundColor=#ffffff;" value="HCLK">
+          <mxGeometry relative="1" x="-0.72" as="geometry">
+            <mxPoint y="-12" as="offset" />
+            <Array as="points">
+              <mxPoint x="1580" y="60" />
+            </Array>
+            <mxPoint x="280" y="60" as="sourcePoint" />
+            <mxPoint x="1580" y="1080" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hclk-manager" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=14;fontStyle=1;labelBackgroundColor=#ffffff;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="110" y="120" as="sourcePoint" />
+            <mxPoint x="110" y="160" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hclk-decoder" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=14;fontStyle=1;labelBackgroundColor=#ffffff;" value="HCLK">
+          <mxGeometry relative="1" x="0.28" as="geometry">
+            <mxPoint y="-11" as="offset" />
+            <mxPoint x="1580" y="520" as="sourcePoint" />
+            <mxPoint x="990" y="520" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="node-hclk-decoder" parent="1" style="shape=ellipse;aspect=fixed;fillColor=#111111;strokeColor=#111111;strokeWidth=1;" value="" vertex="1">
+          <mxGeometry height="10" width="10" x="1575" y="515" as="geometry" />
+        </mxCell>
+        <mxCell id="hclk-sub1" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=14;fontStyle=1;labelBackgroundColor=#ffffff;" value="HCLK">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint y="-11" as="offset" />
+            <mxPoint x="1580" y="205" as="sourcePoint" />
+            <mxPoint x="1700" y="205" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="node-hclk-sub1" parent="1" style="shape=ellipse;aspect=fixed;fillColor=#111111;strokeColor=#111111;strokeWidth=1;" value="" vertex="1">
+          <mxGeometry height="10" width="10" x="1575" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="hclk-sub2" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=14;fontStyle=1;labelBackgroundColor=#ffffff;" value="HCLK">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint y="-11" as="offset" />
+            <mxPoint x="1580" y="565" as="sourcePoint" />
+            <mxPoint x="1700" y="565" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="node-hclk-sub2" parent="1" style="shape=ellipse;aspect=fixed;fillColor=#111111;strokeColor=#111111;strokeWidth=1;" value="" vertex="1">
+          <mxGeometry height="10" width="10" x="1575" y="560" as="geometry" />
+        </mxCell>
+        <mxCell id="hclk-sub3" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=14;fontStyle=1;labelBackgroundColor=#ffffff;" value="HCLK">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint y="-11" as="offset" />
+            <mxPoint x="1580" y="925" as="sourcePoint" />
+            <mxPoint x="1700" y="925" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="node-hclk-sub3" parent="1" style="shape=ellipse;aspect=fixed;fillColor=#111111;strokeColor=#111111;strokeWidth=1;" value="" vertex="1">
+          <mxGeometry height="10" width="10" x="1575" y="920" as="geometry" />
+        </mxCell>
+        <mxCell id="hclk-mux" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=14;fontStyle=1;labelBackgroundColor=#ffffff;" value="HCLK">
+          <mxGeometry relative="1" x="0.25" as="geometry">
+            <mxPoint y="-11" as="offset" />
+            <Array as="points">
+              <mxPoint x="760" y="1080" />
+            </Array>
+            <mxPoint x="1580" y="1080" as="sourcePoint" />
+            <mxPoint x="760" y="1120" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="node-hclk-mux" parent="1" style="shape=ellipse;aspect=fixed;fillColor=#111111;strokeColor=#111111;strokeWidth=1;" value="" vertex="1">
+          <mxGeometry height="10" width="10" x="1575" y="1075" as="geometry" />
+        </mxCell>
+        <mxCell id="hresetn-trunk" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=none;startArrow=none;fontFamily=Arial;fontSize=15;fontStyle=1;labelBackgroundColor=#ffffff;" value="HRESETn">
+          <mxGeometry relative="1" x="-0.72" as="geometry">
+            <mxPoint y="-12" as="offset" />
+            <Array as="points">
+              <mxPoint x="1610" y="100" />
+            </Array>
+            <mxPoint x="280" y="100" as="sourcePoint" />
+            <mxPoint x="1610" y="1100" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hresetn-manager" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=14;fontStyle=1;labelBackgroundColor=#ffffff;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="230" y="120" as="sourcePoint" />
+            <mxPoint x="230" y="160" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hresetn-decoder" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=14;fontStyle=1;labelBackgroundColor=#ffffff;" value="HRESETn">
+          <mxGeometry relative="1" x="0.28" as="geometry">
+            <mxPoint y="-11" as="offset" />
+            <mxPoint x="1610" y="550" as="sourcePoint" />
+            <mxPoint x="990" y="550" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="node-hresetn-decoder" parent="1" style="shape=ellipse;aspect=fixed;fillColor=#111111;strokeColor=#111111;strokeWidth=1;" value="" vertex="1">
+          <mxGeometry height="10" width="10" x="1605" y="545" as="geometry" />
+        </mxCell>
+        <mxCell id="hresetn-sub1" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=14;fontStyle=1;labelBackgroundColor=#ffffff;" value="HRESETn">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint y="-11" as="offset" />
+            <mxPoint x="1610" y="225" as="sourcePoint" />
+            <mxPoint x="1700" y="225" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="node-hresetn-sub1" parent="1" style="shape=ellipse;aspect=fixed;fillColor=#111111;strokeColor=#111111;strokeWidth=1;" value="" vertex="1">
+          <mxGeometry height="10" width="10" x="1605" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="hresetn-sub2" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=14;fontStyle=1;labelBackgroundColor=#ffffff;" value="HRESETn">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint y="-11" as="offset" />
+            <mxPoint x="1610" y="585" as="sourcePoint" />
+            <mxPoint x="1700" y="585" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="node-hresetn-sub2" parent="1" style="shape=ellipse;aspect=fixed;fillColor=#111111;strokeColor=#111111;strokeWidth=1;" value="" vertex="1">
+          <mxGeometry height="10" width="10" x="1605" y="580" as="geometry" />
+        </mxCell>
+        <mxCell id="hresetn-sub3" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=14;fontStyle=1;labelBackgroundColor=#ffffff;" value="HRESETn">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint y="-11" as="offset" />
+            <mxPoint x="1610" y="945" as="sourcePoint" />
+            <mxPoint x="1700" y="945" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="node-hresetn-sub3" parent="1" style="shape=ellipse;aspect=fixed;fillColor=#111111;strokeColor=#111111;strokeWidth=1;" value="" vertex="1">
+          <mxGeometry height="10" width="10" x="1605" y="940" as="geometry" />
+        </mxCell>
+        <mxCell id="hresetn-mux" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=14;fontStyle=1;labelBackgroundColor=#ffffff;" value="HRESETn">
+          <mxGeometry relative="1" x="0.25" as="geometry">
+            <mxPoint y="-11" as="offset" />
+            <Array as="points">
+              <mxPoint x="920" y="1100" />
+            </Array>
+            <mxPoint x="1610" y="1100" as="sourcePoint" />
+            <mxPoint x="920" y="1120" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="node-hresetn-mux" parent="1" style="shape=ellipse;aspect=fixed;fillColor=#111111;strokeColor=#111111;strokeWidth=1;" value="" vertex="1">
+          <mxGeometry height="10" width="10" x="1605" y="1095" as="geometry" />
+        </mxCell>
+        <mxCell id="haddr-trunk" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=none;startArrow=none;fontFamily=Arial;fontSize=15;fontStyle=1;labelBackgroundColor=#ffffff;" value="HADDR[31:0]">
+          <mxGeometry relative="1" x="-0.72" as="geometry">
+            <mxPoint y="-11" as="offset" />
+            <Array as="points">
+              <mxPoint x="1390" y="210" />
+            </Array>
+            <mxPoint x="340" y="210" as="sourcePoint" />
+            <mxPoint x="1390" y="965" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="haddr-sub1" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=14;fontStyle=1;labelBackgroundColor=#ffffff;" value="HADDR[31:0]">
+          <mxGeometry relative="1" x="0.12" as="geometry">
+            <mxPoint y="-10" as="offset" />
+            <mxPoint x="1390" y="245" as="sourcePoint" />
+            <mxPoint x="1700" y="245" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="node-haddr-sub1" parent="1" style="shape=ellipse;aspect=fixed;fillColor=#111111;strokeColor=#111111;strokeWidth=1;" value="" vertex="1">
+          <mxGeometry height="9" width="9" x="1385.5" y="240.5" as="geometry" />
+        </mxCell>
+        <mxCell id="haddr-sub2" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=14;fontStyle=1;labelBackgroundColor=#ffffff;" value="HADDR[31:0]">
+          <mxGeometry relative="1" x="0.12" as="geometry">
+            <mxPoint y="-10" as="offset" />
+            <mxPoint x="1390" y="605" as="sourcePoint" />
+            <mxPoint x="1700" y="605" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="node-haddr-sub2" parent="1" style="shape=ellipse;aspect=fixed;fillColor=#111111;strokeColor=#111111;strokeWidth=1;" value="" vertex="1">
+          <mxGeometry height="9" width="9" x="1385.5" y="600.5" as="geometry" />
+        </mxCell>
+        <mxCell id="haddr-sub3" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=14;fontStyle=1;labelBackgroundColor=#ffffff;" value="HADDR[31:0]">
+          <mxGeometry relative="1" x="0.12" as="geometry">
+            <mxPoint y="-10" as="offset" />
+            <mxPoint x="1390" y="965" as="sourcePoint" />
+            <mxPoint x="1700" y="965" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="node-haddr-sub3" parent="1" style="shape=ellipse;aspect=fixed;fillColor=#111111;strokeColor=#111111;strokeWidth=1;" value="" vertex="1">
+          <mxGeometry height="9" width="9" x="1385.5" y="960.5" as="geometry" />
+        </mxCell>
+        <mxCell id="htrans-trunk" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=none;startArrow=none;fontFamily=Arial;fontSize=15;fontStyle=1;labelBackgroundColor=#ffffff;" value="HTRANS[1:0]">
+          <mxGeometry relative="1" x="-0.72" as="geometry">
+            <mxPoint y="-11" as="offset" />
+            <Array as="points">
+              <mxPoint x="1360" y="238" />
+            </Array>
+            <mxPoint x="340" y="238" as="sourcePoint" />
+            <mxPoint x="1360" y="985" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="htrans-sub1" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=14;fontStyle=1;labelBackgroundColor=#ffffff;" value="HTRANS[1:0]">
+          <mxGeometry relative="1" x="0.12" as="geometry">
+            <mxPoint y="-10" as="offset" />
+            <mxPoint x="1360" y="265" as="sourcePoint" />
+            <mxPoint x="1700" y="265" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="node-htrans-sub1" parent="1" style="shape=ellipse;aspect=fixed;fillColor=#111111;strokeColor=#111111;strokeWidth=1;" value="" vertex="1">
+          <mxGeometry height="9" width="9" x="1355.5" y="260.5" as="geometry" />
+        </mxCell>
+        <mxCell id="htrans-sub2" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=14;fontStyle=1;labelBackgroundColor=#ffffff;" value="HTRANS[1:0]">
+          <mxGeometry relative="1" x="0.12" as="geometry">
+            <mxPoint y="-10" as="offset" />
+            <mxPoint x="1360" y="625" as="sourcePoint" />
+            <mxPoint x="1700" y="625" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="node-htrans-sub2" parent="1" style="shape=ellipse;aspect=fixed;fillColor=#111111;strokeColor=#111111;strokeWidth=1;" value="" vertex="1">
+          <mxGeometry height="9" width="9" x="1355.5" y="620.5" as="geometry" />
+        </mxCell>
+        <mxCell id="htrans-sub3" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=14;fontStyle=1;labelBackgroundColor=#ffffff;" value="HTRANS[1:0]">
+          <mxGeometry relative="1" x="0.12" as="geometry">
+            <mxPoint y="-10" as="offset" />
+            <mxPoint x="1360" y="985" as="sourcePoint" />
+            <mxPoint x="1700" y="985" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="node-htrans-sub3" parent="1" style="shape=ellipse;aspect=fixed;fillColor=#111111;strokeColor=#111111;strokeWidth=1;" value="" vertex="1">
+          <mxGeometry height="9" width="9" x="1355.5" y="980.5" as="geometry" />
+        </mxCell>
+        <mxCell id="hwrite-trunk" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=none;startArrow=none;fontFamily=Arial;fontSize=15;fontStyle=1;labelBackgroundColor=#ffffff;" value="HWRITE">
+          <mxGeometry relative="1" x="-0.72" as="geometry">
+            <mxPoint y="-11" as="offset" />
+            <Array as="points">
+              <mxPoint x="1330" y="266" />
+            </Array>
+            <mxPoint x="340" y="266" as="sourcePoint" />
+            <mxPoint x="1330" y="1005" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hwrite-sub1" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=14;fontStyle=1;labelBackgroundColor=#ffffff;" value="HWRITE">
+          <mxGeometry relative="1" x="0.12" as="geometry">
+            <mxPoint y="-10" as="offset" />
+            <mxPoint x="1330" y="285" as="sourcePoint" />
+            <mxPoint x="1700" y="285" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="node-hwrite-sub1" parent="1" style="shape=ellipse;aspect=fixed;fillColor=#111111;strokeColor=#111111;strokeWidth=1;" value="" vertex="1">
+          <mxGeometry height="9" width="9" x="1325.5" y="280.5" as="geometry" />
+        </mxCell>
+        <mxCell id="hwrite-sub2" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=14;fontStyle=1;labelBackgroundColor=#ffffff;" value="HWRITE">
+          <mxGeometry relative="1" x="0.12" as="geometry">
+            <mxPoint y="-10" as="offset" />
+            <mxPoint x="1330" y="645" as="sourcePoint" />
+            <mxPoint x="1700" y="645" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="node-hwrite-sub2" parent="1" style="shape=ellipse;aspect=fixed;fillColor=#111111;strokeColor=#111111;strokeWidth=1;" value="" vertex="1">
+          <mxGeometry height="9" width="9" x="1325.5" y="640.5" as="geometry" />
+        </mxCell>
+        <mxCell id="hwrite-sub3" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=14;fontStyle=1;labelBackgroundColor=#ffffff;" value="HWRITE">
+          <mxGeometry relative="1" x="0.12" as="geometry">
+            <mxPoint y="-10" as="offset" />
+            <mxPoint x="1330" y="1005" as="sourcePoint" />
+            <mxPoint x="1700" y="1005" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="node-hwrite-sub3" parent="1" style="shape=ellipse;aspect=fixed;fillColor=#111111;strokeColor=#111111;strokeWidth=1;" value="" vertex="1">
+          <mxGeometry height="9" width="9" x="1325.5" y="1000.5" as="geometry" />
+        </mxCell>
+        <mxCell id="hsize-trunk" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=none;startArrow=none;fontFamily=Arial;fontSize=15;fontStyle=1;labelBackgroundColor=#ffffff;" value="HSIZE[2:0]">
+          <mxGeometry relative="1" x="-0.72" as="geometry">
+            <mxPoint y="-11" as="offset" />
+            <Array as="points">
+              <mxPoint x="1300" y="294" />
+            </Array>
+            <mxPoint x="340" y="294" as="sourcePoint" />
+            <mxPoint x="1300" y="1025" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hsize-sub1" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=14;fontStyle=1;labelBackgroundColor=#ffffff;" value="HSIZE[2:0]">
+          <mxGeometry relative="1" x="0.12" as="geometry">
+            <mxPoint y="-10" as="offset" />
+            <mxPoint x="1300" y="305" as="sourcePoint" />
+            <mxPoint x="1700" y="305" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="node-hsize-sub1" parent="1" style="shape=ellipse;aspect=fixed;fillColor=#111111;strokeColor=#111111;strokeWidth=1;" value="" vertex="1">
+          <mxGeometry height="9" width="9" x="1295.5" y="300.5" as="geometry" />
+        </mxCell>
+        <mxCell id="hsize-sub2" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=14;fontStyle=1;labelBackgroundColor=#ffffff;" value="HSIZE[2:0]">
+          <mxGeometry relative="1" x="0.12" as="geometry">
+            <mxPoint y="-10" as="offset" />
+            <mxPoint x="1300" y="665" as="sourcePoint" />
+            <mxPoint x="1700" y="665" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="node-hsize-sub2" parent="1" style="shape=ellipse;aspect=fixed;fillColor=#111111;strokeColor=#111111;strokeWidth=1;" value="" vertex="1">
+          <mxGeometry height="9" width="9" x="1295.5" y="660.5" as="geometry" />
+        </mxCell>
+        <mxCell id="hsize-sub3" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=14;fontStyle=1;labelBackgroundColor=#ffffff;" value="HSIZE[2:0]">
+          <mxGeometry relative="1" x="0.12" as="geometry">
+            <mxPoint y="-10" as="offset" />
+            <mxPoint x="1300" y="1025" as="sourcePoint" />
+            <mxPoint x="1700" y="1025" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="node-hsize-sub3" parent="1" style="shape=ellipse;aspect=fixed;fillColor=#111111;strokeColor=#111111;strokeWidth=1;" value="" vertex="1">
+          <mxGeometry height="9" width="9" x="1295.5" y="1020.5" as="geometry" />
+        </mxCell>
+        <mxCell id="hburst-trunk" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=none;startArrow=none;fontFamily=Arial;fontSize=15;fontStyle=1;labelBackgroundColor=#ffffff;" value="HBURST[2:0]">
+          <mxGeometry relative="1" x="-0.72" as="geometry">
+            <mxPoint y="-11" as="offset" />
+            <Array as="points">
+              <mxPoint x="1270" y="322" />
+            </Array>
+            <mxPoint x="340" y="322" as="sourcePoint" />
+            <mxPoint x="1270" y="1045" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hburst-sub1" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=14;fontStyle=1;labelBackgroundColor=#ffffff;" value="HBURST[2:0]">
+          <mxGeometry relative="1" x="0.12" as="geometry">
+            <mxPoint y="-10" as="offset" />
+            <mxPoint x="1270" y="325" as="sourcePoint" />
+            <mxPoint x="1700" y="325" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="node-hburst-sub1" parent="1" style="shape=ellipse;aspect=fixed;fillColor=#111111;strokeColor=#111111;strokeWidth=1;" value="" vertex="1">
+          <mxGeometry height="9" width="9" x="1265.5" y="320.5" as="geometry" />
+        </mxCell>
+        <mxCell id="hburst-sub2" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=14;fontStyle=1;labelBackgroundColor=#ffffff;" value="HBURST[2:0]">
+          <mxGeometry relative="1" x="0.12" as="geometry">
+            <mxPoint y="-10" as="offset" />
+            <mxPoint x="1270" y="685" as="sourcePoint" />
+            <mxPoint x="1700" y="685" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="node-hburst-sub2" parent="1" style="shape=ellipse;aspect=fixed;fillColor=#111111;strokeColor=#111111;strokeWidth=1;" value="" vertex="1">
+          <mxGeometry height="9" width="9" x="1265.5" y="680.5" as="geometry" />
+        </mxCell>
+        <mxCell id="hburst-sub3" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=14;fontStyle=1;labelBackgroundColor=#ffffff;" value="HBURST[2:0]">
+          <mxGeometry relative="1" x="0.12" as="geometry">
+            <mxPoint y="-10" as="offset" />
+            <mxPoint x="1270" y="1045" as="sourcePoint" />
+            <mxPoint x="1700" y="1045" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="node-hburst-sub3" parent="1" style="shape=ellipse;aspect=fixed;fillColor=#111111;strokeColor=#111111;strokeWidth=1;" value="" vertex="1">
+          <mxGeometry height="9" width="9" x="1265.5" y="1040.5" as="geometry" />
+        </mxCell>
+        <mxCell id="hprot-trunk" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=none;startArrow=none;fontFamily=Arial;fontSize=15;fontStyle=1;labelBackgroundColor=#ffffff;" value="HPROT[3:0]">
+          <mxGeometry relative="1" x="-0.72" as="geometry">
+            <mxPoint y="-11" as="offset" />
+            <Array as="points">
+              <mxPoint x="1240" y="350" />
+            </Array>
+            <mxPoint x="340" y="350" as="sourcePoint" />
+            <mxPoint x="1240" y="1065" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hprot-sub1" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=14;fontStyle=1;labelBackgroundColor=#ffffff;" value="HPROT[3:0]">
+          <mxGeometry relative="1" x="0.12" as="geometry">
+            <mxPoint y="-10" as="offset" />
+            <mxPoint x="1240" y="345" as="sourcePoint" />
+            <mxPoint x="1700" y="345" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="node-hprot-sub1" parent="1" style="shape=ellipse;aspect=fixed;fillColor=#111111;strokeColor=#111111;strokeWidth=1;" value="" vertex="1">
+          <mxGeometry height="9" width="9" x="1235.5" y="340.5" as="geometry" />
+        </mxCell>
+        <mxCell id="hprot-sub2" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=14;fontStyle=1;labelBackgroundColor=#ffffff;" value="HPROT[3:0]">
+          <mxGeometry relative="1" x="0.12" as="geometry">
+            <mxPoint y="-10" as="offset" />
+            <mxPoint x="1240" y="705" as="sourcePoint" />
+            <mxPoint x="1700" y="705" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="node-hprot-sub2" parent="1" style="shape=ellipse;aspect=fixed;fillColor=#111111;strokeColor=#111111;strokeWidth=1;" value="" vertex="1">
+          <mxGeometry height="9" width="9" x="1235.5" y="700.5" as="geometry" />
+        </mxCell>
+        <mxCell id="hprot-sub3" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=14;fontStyle=1;labelBackgroundColor=#ffffff;" value="HPROT[3:0]">
+          <mxGeometry relative="1" x="0.12" as="geometry">
+            <mxPoint y="-10" as="offset" />
+            <mxPoint x="1240" y="1065" as="sourcePoint" />
+            <mxPoint x="1700" y="1065" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="node-hprot-sub3" parent="1" style="shape=ellipse;aspect=fixed;fillColor=#111111;strokeColor=#111111;strokeWidth=1;" value="" vertex="1">
+          <mxGeometry height="9" width="9" x="1235.5" y="1060.5" as="geometry" />
+        </mxCell>
+        <mxCell id="hmastlock-trunk" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=none;startArrow=none;fontFamily=Arial;fontSize=15;fontStyle=1;labelBackgroundColor=#ffffff;" value="HMASTLOCK">
+          <mxGeometry relative="1" x="-0.72" as="geometry">
+            <mxPoint y="-11" as="offset" />
+            <Array as="points">
+              <mxPoint x="1210" y="378" />
+            </Array>
+            <mxPoint x="340" y="378" as="sourcePoint" />
+            <mxPoint x="1210" y="1085" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hmastlock-sub1" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=14;fontStyle=1;labelBackgroundColor=#ffffff;" value="HMASTLOCK">
+          <mxGeometry relative="1" x="0.12" as="geometry">
+            <mxPoint y="-10" as="offset" />
+            <mxPoint x="1210" y="365" as="sourcePoint" />
+            <mxPoint x="1700" y="365" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="node-hmastlock-sub1" parent="1" style="shape=ellipse;aspect=fixed;fillColor=#111111;strokeColor=#111111;strokeWidth=1;" value="" vertex="1">
+          <mxGeometry height="9" width="9" x="1205.5" y="360.5" as="geometry" />
+        </mxCell>
+        <mxCell id="hmastlock-sub2" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=14;fontStyle=1;labelBackgroundColor=#ffffff;" value="HMASTLOCK">
+          <mxGeometry relative="1" x="0.12" as="geometry">
+            <mxPoint y="-10" as="offset" />
+            <mxPoint x="1210" y="725" as="sourcePoint" />
+            <mxPoint x="1700" y="725" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="node-hmastlock-sub2" parent="1" style="shape=ellipse;aspect=fixed;fillColor=#111111;strokeColor=#111111;strokeWidth=1;" value="" vertex="1">
+          <mxGeometry height="9" width="9" x="1205.5" y="720.5" as="geometry" />
+        </mxCell>
+        <mxCell id="hmastlock-sub3" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=14;fontStyle=1;labelBackgroundColor=#ffffff;" value="HMASTLOCK">
+          <mxGeometry relative="1" x="0.12" as="geometry">
+            <mxPoint y="-10" as="offset" />
+            <mxPoint x="1210" y="1085" as="sourcePoint" />
+            <mxPoint x="1700" y="1085" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="node-hmastlock-sub3" parent="1" style="shape=ellipse;aspect=fixed;fillColor=#111111;strokeColor=#111111;strokeWidth=1;" value="" vertex="1">
+          <mxGeometry height="9" width="9" x="1205.5" y="1080.5" as="geometry" />
+        </mxCell>
+        <mxCell id="hwdata-trunk" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=none;startArrow=none;fontFamily=Arial;fontSize=15;fontStyle=1;labelBackgroundColor=#ffffff;" value="HWDATA[31:0]">
+          <mxGeometry relative="1" x="-0.72" as="geometry">
+            <mxPoint y="-11" as="offset" />
+            <Array as="points">
+              <mxPoint x="1180" y="406" />
+            </Array>
+            <mxPoint x="340" y="406" as="sourcePoint" />
+            <mxPoint x="1180" y="1105" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hwdata-sub1" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=14;fontStyle=1;labelBackgroundColor=#ffffff;" value="HWDATA[31:0]">
+          <mxGeometry relative="1" x="0.12" as="geometry">
+            <mxPoint y="-10" as="offset" />
+            <mxPoint x="1180" y="385" as="sourcePoint" />
+            <mxPoint x="1700" y="385" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="node-hwdata-sub1" parent="1" style="shape=ellipse;aspect=fixed;fillColor=#111111;strokeColor=#111111;strokeWidth=1;" value="" vertex="1">
+          <mxGeometry height="9" width="9" x="1175.5" y="380.5" as="geometry" />
+        </mxCell>
+        <mxCell id="hwdata-sub2" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=14;fontStyle=1;labelBackgroundColor=#ffffff;" value="HWDATA[31:0]">
+          <mxGeometry relative="1" x="0.12" as="geometry">
+            <mxPoint y="-10" as="offset" />
+            <mxPoint x="1180" y="745" as="sourcePoint" />
+            <mxPoint x="1700" y="745" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="node-hwdata-sub2" parent="1" style="shape=ellipse;aspect=fixed;fillColor=#111111;strokeColor=#111111;strokeWidth=1;" value="" vertex="1">
+          <mxGeometry height="9" width="9" x="1175.5" y="740.5" as="geometry" />
+        </mxCell>
+        <mxCell id="hwdata-sub3" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=14;fontStyle=1;labelBackgroundColor=#ffffff;" value="HWDATA[31:0]">
+          <mxGeometry relative="1" x="0.12" as="geometry">
+            <mxPoint y="-10" as="offset" />
+            <mxPoint x="1180" y="1105" as="sourcePoint" />
+            <mxPoint x="1700" y="1105" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="node-hwdata-sub3" parent="1" style="shape=ellipse;aspect=fixed;fillColor=#111111;strokeColor=#111111;strokeWidth=1;" value="" vertex="1">
+          <mxGeometry height="9" width="9" x="1175.5" y="1100.5" as="geometry" />
+        </mxCell>
+        <mxCell id="hwstrb-trunk" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=none;startArrow=none;fontFamily=Arial;fontSize=15;fontStyle=1;labelBackgroundColor=#ffffff;" value="HWSTRB[3:0]">
+          <mxGeometry relative="1" x="-0.72" as="geometry">
+            <mxPoint y="-11" as="offset" />
+            <Array as="points">
+              <mxPoint x="1150" y="434" />
+            </Array>
+            <mxPoint x="340" y="434" as="sourcePoint" />
+            <mxPoint x="1150" y="1125" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hwstrb-sub1" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=14;fontStyle=1;labelBackgroundColor=#ffffff;" value="HWSTRB[3:0]">
+          <mxGeometry relative="1" x="0.12" as="geometry">
+            <mxPoint y="-10" as="offset" />
+            <mxPoint x="1150" y="405" as="sourcePoint" />
+            <mxPoint x="1700" y="405" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="node-hwstrb-sub1" parent="1" style="shape=ellipse;aspect=fixed;fillColor=#111111;strokeColor=#111111;strokeWidth=1;" value="" vertex="1">
+          <mxGeometry height="9" width="9" x="1145.5" y="400.5" as="geometry" />
+        </mxCell>
+        <mxCell id="hwstrb-sub2" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=14;fontStyle=1;labelBackgroundColor=#ffffff;" value="HWSTRB[3:0]">
+          <mxGeometry relative="1" x="0.12" as="geometry">
+            <mxPoint y="-10" as="offset" />
+            <mxPoint x="1150" y="765" as="sourcePoint" />
+            <mxPoint x="1700" y="765" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="node-hwstrb-sub2" parent="1" style="shape=ellipse;aspect=fixed;fillColor=#111111;strokeColor=#111111;strokeWidth=1;" value="" vertex="1">
+          <mxGeometry height="9" width="9" x="1145.5" y="760.5" as="geometry" />
+        </mxCell>
+        <mxCell id="hwstrb-sub3" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=14;fontStyle=1;labelBackgroundColor=#ffffff;" value="HWSTRB[3:0]">
+          <mxGeometry relative="1" x="0.12" as="geometry">
+            <mxPoint y="-10" as="offset" />
+            <mxPoint x="1150" y="1125" as="sourcePoint" />
+            <mxPoint x="1700" y="1125" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="node-hwstrb-sub3" parent="1" style="shape=ellipse;aspect=fixed;fillColor=#111111;strokeColor=#111111;strokeWidth=1;" value="" vertex="1">
+          <mxGeometry height="9" width="9" x="1145.5" y="1120.5" as="geometry" />
+        </mxCell>
+        <mxCell id="haddr-decoder" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=14;fontStyle=1;labelBackgroundColor=#ffffff;" value="HADDR[31:0]">
+          <mxGeometry relative="1" x="-0.15" as="geometry">
+            <mxPoint x="70" y="-12" as="offset" />
+            <mxPoint x="820" y="210" as="sourcePoint" />
+            <mxPoint x="820" y="500" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="node-haddr-decoder" parent="1" style="shape=ellipse;aspect=fixed;fillColor=#111111;strokeColor=#111111;strokeWidth=1;" value="" vertex="1">
+          <mxGeometry height="12" width="12" x="814" y="204" as="geometry" />
+        </mxCell>
+        <mxCell id="hsel1" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#333333;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=16;fontStyle=1;labelBackgroundColor=#ffffff;" value="HSEL_1">
+          <mxGeometry relative="1" x="-0.7" as="geometry">
+            <mxPoint y="-14" as="offset" />
+            <Array as="points">
+              <mxPoint x="1430" y="590" />
+              <mxPoint x="1430" y="425" />
+            </Array>
+            <mxPoint x="990" y="590" as="sourcePoint" />
+            <mxPoint x="1700" y="425" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hsel2" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#333333;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=16;fontStyle=1;labelBackgroundColor=#ffffff;" value="HSEL_2">
+          <mxGeometry relative="1" x="-0.7" as="geometry">
+            <mxPoint y="-14" as="offset" />
+            <Array as="points">
+              <mxPoint x="1460" y="680" />
+              <mxPoint x="1460" y="785" />
+            </Array>
+            <mxPoint x="990" y="680" as="sourcePoint" />
+            <mxPoint x="1700" y="785" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hsel3" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#333333;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=16;fontStyle=1;labelBackgroundColor=#ffffff;" value="HSEL_3">
+          <mxGeometry relative="1" x="-0.7" as="geometry">
+            <mxPoint y="-14" as="offset" />
+            <Array as="points">
+              <mxPoint x="1490" y="770" />
+              <mxPoint x="1490" y="1145" />
+            </Array>
+            <mxPoint x="990" y="770" as="sourcePoint" />
+            <mxPoint x="1700" y="1145" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mux-select-top" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#333333;strokeWidth=2;endArrow=none;startArrow=none;fontFamily=Arial;fontSize=16;fontStyle=1;labelBackgroundColor=#ffffff;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="820" y="860" as="sourcePoint" />
+            <mxPoint x="820" y="925" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mux-select-bottom" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#333333;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=16;fontStyle=1;labelBackgroundColor=#ffffff;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="820" y="1060" />
+              <mxPoint x="840" y="1060" />
+            </Array>
+            <mxPoint x="820" y="1010" as="sourcePoint" />
+            <mxPoint x="840" y="1120" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hrdata-1" edge="1" parent="1" source="sub1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=14;fontStyle=1;labelBackgroundColor=#ffffff;exitX=1;exitY=0.32;exitDx=0;exitDy=0;entryX=1;entryY=0.076;entryDx=0;entryDy=0;" target="mux" value="HRDATA_1[31:0]">
+          <mxGeometry relative="1" x="0.48" as="geometry">
+            <mxPoint y="-12" as="offset" />
+            <Array as="points">
+              <mxPoint x="2100" y="269.6" />
+              <mxPoint x="2100" y="1145" />
+              <mxPoint x="1010" y="1145" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hreadyout-1" edge="1" parent="1" source="sub1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=14;fontStyle=1;labelBackgroundColor=#ffffff;exitX=1;exitY=0.46;exitDx=0;exitDy=0;entryX=1;entryY=0.182;entryDx=0;entryDy=0;" target="mux" value="HREADYOUT_1">
+          <mxGeometry relative="1" x="0.48" as="geometry">
+            <mxPoint y="-12" as="offset" />
+            <Array as="points">
+              <mxPoint x="2130" y="308.8" />
+              <mxPoint x="2130" y="1180" />
+              <mxPoint x="1010" y="1180" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hresp-1" edge="1" parent="1" source="sub1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=14;fontStyle=1;labelBackgroundColor=#ffffff;exitX=1;exitY=0.6;exitDx=0;exitDy=0;entryX=1;entryY=0.288;entryDx=0;entryDy=0;" target="mux" value="HRESP_1">
+          <mxGeometry relative="1" x="0.48" as="geometry">
+            <mxPoint y="-12" as="offset" />
+            <Array as="points">
+              <mxPoint x="2160" y="348" />
+              <mxPoint x="2160" y="1215" />
+              <mxPoint x="1010" y="1215" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hrdata-2" edge="1" parent="1" source="sub2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=14;fontStyle=1;labelBackgroundColor=#ffffff;exitX=1;exitY=0.32;exitDx=0;exitDy=0;entryX=1;entryY=0.394;entryDx=0;entryDy=0;" target="mux" value="HRDATA_2[31:0]">
+          <mxGeometry relative="1" x="0.48" as="geometry">
+            <mxPoint y="-12" as="offset" />
+            <Array as="points">
+              <mxPoint x="2190" y="629.6" />
+              <mxPoint x="2190" y="1250" />
+              <mxPoint x="1010" y="1250" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hreadyout-2" edge="1" parent="1" source="sub2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=14;fontStyle=1;labelBackgroundColor=#ffffff;exitX=1;exitY=0.46;exitDx=0;exitDy=0;entryX=1;entryY=0.500;entryDx=0;entryDy=0;" target="mux" value="HREADYOUT_2">
+          <mxGeometry relative="1" x="0.48" as="geometry">
+            <mxPoint y="-12" as="offset" />
+            <Array as="points">
+              <mxPoint x="2220" y="668.8" />
+              <mxPoint x="2220" y="1285" />
+              <mxPoint x="1010" y="1285" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hresp-2" edge="1" parent="1" source="sub2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=14;fontStyle=1;labelBackgroundColor=#ffffff;exitX=1;exitY=0.6;exitDx=0;exitDy=0;entryX=1;entryY=0.606;entryDx=0;entryDy=0;" target="mux" value="HRESP_2">
+          <mxGeometry relative="1" x="0.48" as="geometry">
+            <mxPoint y="-12" as="offset" />
+            <Array as="points">
+              <mxPoint x="2250" y="708" />
+              <mxPoint x="2250" y="1320" />
+              <mxPoint x="1010" y="1320" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hrdata-3" edge="1" parent="1" source="sub3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=14;fontStyle=1;labelBackgroundColor=#ffffff;exitX=1;exitY=0.32;exitDx=0;exitDy=0;entryX=1;entryY=0.712;entryDx=0;entryDy=0;" target="mux" value="HRDATA_3[31:0]">
+          <mxGeometry relative="1" x="0.48" as="geometry">
+            <mxPoint y="-12" as="offset" />
+            <Array as="points">
+              <mxPoint x="2280" y="989.6" />
+              <mxPoint x="2280" y="1355" />
+              <mxPoint x="1010" y="1355" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hreadyout-3" edge="1" parent="1" source="sub3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=14;fontStyle=1;labelBackgroundColor=#ffffff;exitX=1;exitY=0.46;exitDx=0;exitDy=0;entryX=1;entryY=0.818;entryDx=0;entryDy=0;" target="mux" value="HREADYOUT_3">
+          <mxGeometry relative="1" x="0.48" as="geometry">
+            <mxPoint y="-12" as="offset" />
+            <Array as="points">
+              <mxPoint x="2310" y="1028.8" />
+              <mxPoint x="2310" y="1390" />
+              <mxPoint x="1010" y="1390" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hresp-3" edge="1" parent="1" source="sub3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=14;fontStyle=1;labelBackgroundColor=#ffffff;exitX=1;exitY=0.6;exitDx=0;exitDy=0;entryX=1;entryY=0.924;entryDx=0;entryDy=0;" target="mux" value="HRESP_3">
+          <mxGeometry relative="1" x="0.48" as="geometry">
+            <mxPoint y="-12" as="offset" />
+            <Array as="points">
+              <mxPoint x="2340" y="1068" />
+              <mxPoint x="2340" y="1425" />
+              <mxPoint x="1010" y="1425" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hrdata-system" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=14;fontStyle=1;labelBackgroundColor=#ffffff;" value="HRDATA[31:0]">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint y="-14" as="offset" />
+            <mxPoint x="700" y="1215" as="sourcePoint" />
+            <mxPoint x="340" y="1215" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hready-system" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=14;fontStyle=1;labelBackgroundColor=#ffffff;" value="HREADY">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint y="-14" as="offset" />
+            <mxPoint x="700" y="1300" as="sourcePoint" />
+            <mxPoint x="340" y="1300" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="node-hready-feedback" parent="1" style="shape=ellipse;aspect=fixed;fillColor=#111111;strokeColor=#111111;strokeWidth=1;" value="" vertex="1">
+          <mxGeometry height="10" width="10" x="595" y="1295" as="geometry" />
+        </mxCell>
+        <mxCell id="hready-feedback-trunk" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=none;startArrow=none;fontFamily=Arial;fontSize=14;fontStyle=1;labelBackgroundColor=#ffffff;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="600" y="1490" />
+              <mxPoint x="1640" y="1490" />
+            </Array>
+            <mxPoint x="600" y="1300" as="sourcePoint" />
+            <mxPoint x="1640" y="445" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hready-sub1" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=14;fontStyle=1;labelBackgroundColor=#ffffff;" value="HREADY">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint y="-11" as="offset" />
+            <mxPoint x="1640" y="445" as="sourcePoint" />
+            <mxPoint x="1700" y="445" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hready-sub2" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=14;fontStyle=1;labelBackgroundColor=#ffffff;" value="HREADY">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint y="-11" as="offset" />
+            <mxPoint x="1640" y="805" as="sourcePoint" />
+            <mxPoint x="1700" y="805" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hready-sub3" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=14;fontStyle=1;labelBackgroundColor=#ffffff;" value="HREADY">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint y="-11" as="offset" />
+            <mxPoint x="1640" y="1165" as="sourcePoint" />
+            <mxPoint x="1700" y="1165" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hresp-system" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=14;fontStyle=1;labelBackgroundColor=#ffffff;" value="HRESP">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint y="-14" as="offset" />
+            <mxPoint x="700" y="1385" as="sourcePoint" />
+            <mxPoint x="340" y="1385" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
