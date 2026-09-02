@@ -7,7 +7,7 @@
 
 本文面向第一次系统学习 AHB 的读者，统一使用 Issue C 的术语 `Manager（原 Master）`、`Subordinate（原 Slave）`、`Decoder（译码器）` 和 `Multiplexor（多路选择器）`。
 
-本文只整理 AHB-Lite 与 AHB5 共用的核心信号。AHB5 可选信号 `HNONSEC`、`HEXCL`、`HMASTER`、`HEXOKAY` 被有意排除；需要这些特性时，应继续阅读 Chapter 3、Chapter 10 和 Appendix A。`HWSTRB` 保留在本文中，但它是由 `Write_Strobes` 属性控制的可选信号。
+本文只整理 AHB-Lite 与 AHB5 共用的核心信号。AHB5 可选信号 `HNONSEC`、`HEXCL`、`HMASTER`、`HEXOKAY` 被有意排除；需要这些特性时，应继续阅读[第三章 Transfers 精读](ARM_AMBA_AHB_Protocol_Specification_IHI0033C-第三章传输.md)、Chapter 10 和 Appendix A。`HWSTRB` 保留在本文中，但它是由 `Write_Strobes` 属性控制的可选信号。
 
 > **颜色约定：** <span style="color:#4ea1ff">蓝色</span>表示关键协议名和信号，<span style="color:#ffb454">橙色</span>表示限制和易错条件，<span style="color:#63d297">绿色</span>表示正确方向和结论。
 >
@@ -129,9 +129,9 @@
 | T3 | B → UART，继续保持 | UART | A 完成 | RAM | HIGH |
 | T4 | 下一笔地址 | 下一笔目标 | B 返回 | UART | 取决于 UART |
 
-T2 虽然已经出现 `HSEL_UART=HIGH`，当前数据阶段仍属于地址 A，所以 Multiplexor 必须继续选择 RAM。T2 的 `HREADY=LOW` 表示 A 尚未完成，地址 B 及其控制信号继续保持，`data_sel` 也必须保持为 RAM。到 T3 结束的上升沿，A 完成且 B 被正式接受，`data_sel` 才能更新为 UART，并从 T4 开始选择 UART 的返回值。
+T2 虽然已经出现 `HSEL_UART=1`，当前数据阶段仍属于地址 A，所以 Multiplexor 必须继续选择 RAM。T2 的 `HREADY=0` 表示 A 尚未完成，地址 B 及其控制信号继续保持，`data_sel` 也必须保持为 RAM。到 T3 结束的上升沿，A 完成且 B 被正式接受，`data_sel` 才能更新为 UART，并从 T4 开始选择 UART 的返回值。
 
-> <span style="color:#ffb454"><strong>工程实现：</strong></span> 常见实现使用一个仅在 `HREADY=HIGH` 时更新的数据阶段选择寄存器。下面代码只展示返回选择的核心结构；地址范围、默认 Subordinate 和完整错误响应应由具体系统定义。
+> <span style="color:#ffb454"><strong>工程实现：</strong></span> 常见实现使用一个仅在 `HREADY=1` 时更新的数据阶段选择寄存器。下面代码只展示返回选择的核心结构；地址范围、默认 Subordinate 和完整错误响应应由具体系统定义。
 
 ```systemverilog
 typedef enum logic [1:0] {
@@ -198,7 +198,7 @@ always_comb begin
 end
 ```
 
-Multiplexor 选择出的系统级 `HREADY` 还要连接到 Manager 和所有 Subordinate。这样，`HREADY=LOW` 时地址阶段、数据阶段和返回选择会一起停住；`HREADY=HIGH` 时，当前数据阶段完成，选择寄存器才能推进到下一笔传输。
+Multiplexor 选择出的系统级 `HREADY` 还要连接到 Manager 和所有 Subordinate。这样，`HREADY=0` 时地址阶段、数据阶段和返回选择会一起停住；`HREADY=1` 时，当前数据阶段完成，选择寄存器才能推进到下一笔传输。
 
 > <span style="color:#63d297"><strong>一句话记忆：</strong></span> `HSELx/addr_sel` 选择地址阶段要访问谁，寄存后的 `data_sel` 选择数据阶段从谁接收返回；等待期间 `data_sel` 不能改变。
 
@@ -218,7 +218,7 @@ Multiplexor 选择出的系统级 `HREADY` 还要连接到 Manager 和所有 Sub
 ### 5.2 `HRESP` 与 `HREADY`
 
 - `HREADY` 回答：当前数据阶段完成了吗？
-- `HRESP` 回答：传输结果是什么？`HRESP=LOW` 表示 `OKAY`，`HRESP=HIGH` 表示 `ERROR`。
+- `HRESP` 回答：传输结果是什么？`HRESP=0` 表示 `OKAY`，`HRESP=1` 表示 `ERROR`。
 
 <span style="color:#ffb454">完成状态和传输结果不能互相替代。</span>
 
@@ -265,15 +265,15 @@ Subordinate 输出的 `HRDATA`、`HRESP` 是局部返回；Multiplexor 输出的
 </details>
 
 <details>
-<summary>5. <code>HREADY=HIGH</code> 是否表示传输一定成功？</summary>
+<summary>5. <code>HREADY=1</code> 是否表示传输一定成功？</summary>
 
-> 不一定。`HREADY=HIGH` 表示传输可以完成，成功或失败必须结合 `HRESP` 判断。
+> 不一定。`HREADY=1` 表示传输可以完成，成功或失败必须结合 `HRESP` 判断。
 
 </details>
 
 本章只建立通用信号地图，不展开编码和完整时序。下一步阅读：
 
-- Chapter 3：`HTRANS`、`HBURST`、`HSIZE`、写选通和基本传输时序；
+- [Chapter 3 Transfers 精读](ARM_AMBA_AHB_Protocol_Specification_IHI0033C-第三章传输.md)：`HTRANS`、`HBURST`、`HSIZE`、写选通和基本传输时序；
 - Chapter 4：Decoder、Multiplexor、`HREADYOUT` 与 `HREADY` 的连接；
 - Chapter 5：`OKAY`、`ERROR` 及错误响应时序；
 - Chapter 10 和 Appendix A：本文刻意排除的 AHB5 可选信号与完整接口属性。

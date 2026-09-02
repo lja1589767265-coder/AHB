@@ -203,9 +203,9 @@ Manager 通过地址和控制信号描述一次传输，至少表达：
 flowchart LR
     A["<b>Address phase</b><br/>通常 1 个地址与控制周期<br/>可受前一笔传输等待影响而被动延长<br/><code>HADDR</code> · 控制信号"] --> B["<b>Data phase</b><br/>至少 1 个周期<br/>传送 <code>HWDATA</code> 或返回 <code>HRDATA</code> 与响应"]
     B --> C{"<b>Subordinate 准备好了吗？</b><br/><code>HREADYOUT</code>"}
-    C -->|"LOW：继续等待"| D["<b>Wait state</b><br/>Interconnect 汇总为<br/><code>HREADY=LOW</code><br/>数据阶段继续延长"]
+    C -->|"LOW：继续等待"| D["<b>Wait state</b><br/>Interconnect 汇总为<br/><code>HREADY=0</code><br/>数据阶段继续延长"]
     D --> C
-    C -->|"HIGH：完成"| E["<b>传输完成</b><br/><code>HREADY=HIGH</code><br/>进入下一笔传输"]
+    C -->|"HIGH：完成"| E["<b>传输完成</b><br/><code>HREADY=1</code><br/>进入下一笔传输"]
 
     classDef fixed fill:#17202b,stroke:#4ea1ff,color:#ffffff;
     classDef data fill:#17202b,stroke:#63d297,color:#ffffff;
@@ -215,17 +215,17 @@ flowchart LR
     class C,D wait;
 ```
 
-> **时序提示：** 上图是按逻辑步骤绘制的概念流程，不是逐周期时序图。AHB 具有流水线结构：一笔传输的数据阶段通常与下一笔传输的地址阶段重叠；若 `HREADY=LOW`，下一笔地址与控制必须保持。
+> **时序提示：** 上图是按逻辑步骤绘制的概念流程，不是逐周期时序图。AHB 具有流水线结构：一笔传输的数据阶段通常与下一笔传输的地址阶段重叠；若 `HREADY=0`，下一笔地址与控制必须保持。
 
 图中要抓住三个关系：
 
-- <span style="color:#4ea1ff"><strong>目标 Subordinate 不能主动延长自己的地址阶段。</strong></span> 地址阶段通常为一个周期；若前一笔传输的数据阶段等待，下一笔传输的地址与控制会被保持，从而使其地址阶段被动延长。对于有效的非 IDLE 传输，Subordinate 只有在 <code>HSELx=HIGH</code> 且 <code>HREADY=HIGH</code> 时才正式采样地址和控制信息。
+- <span style="color:#4ea1ff"><strong>目标 Subordinate 不能主动延长自己的地址阶段。</strong></span> 地址阶段通常为一个周期；若前一笔传输的数据阶段等待，下一笔传输的地址与控制会被保持，从而使其地址阶段被动延长。对于有效的非 IDLE 传输，Subordinate 只有在 <code>HSELx=1</code> 且 <code>HREADY=1</code> 时才正式采样地址和控制信息。
 - <span style="color:#63d297"><strong>数据阶段至少一个周期，可以持续多个周期。</strong></span> 这里传送写数据，或返回读数据和响应。
-- <span style="color:#ffb454"><strong>等待状态插入在当前传输的数据阶段。</strong></span> Subordinate 输出 `HREADYOUT=LOW`，Interconnect 生成系统侧 `HREADY=LOW`；这会延长当前数据阶段，并连带保持下一笔传输的地址与控制。`HREADY=HIGH` 时，当前数据阶段才完成。
+- <span style="color:#ffb454"><strong>等待状态插入在当前传输的数据阶段。</strong></span> Subordinate 输出 `HREADYOUT=0`，Interconnect 生成系统侧 `HREADY=0`；这会延长当前数据阶段，并连带保持下一笔传输的地址与控制。`HREADY=1` 时，当前数据阶段才完成。
 
-目标 Subordinate 不能主动要求延长自己的地址阶段，因此所有 Subordinate 都必须具备在有效传输的 `HSELx=HIGH` 且 `HREADY=HIGH` 时采样地址与控制信息的能力。若前一笔传输正在等待，下一笔地址阶段可能被动保持多个周期。（IHI 0033C，1.3 节，第 1-18 页；Chapter 3，3.1 节，第 3-28～3-29 页）
+目标 Subordinate 不能主动要求延长自己的地址阶段，因此所有 Subordinate 都必须具备在有效传输的 `HSELx=1` 且 `HREADY=1` 时采样地址与控制信息的能力。若前一笔传输正在等待，下一笔地址阶段可能被动保持多个周期。（IHI 0033C，1.3 节，第 1-18 页；Chapter 3，3.1 节，第 3-28～3-29 页）
 
-数据阶段至少占一个周期。如果 Subordinate 尚未准备好，它将 <span style="color:#ffb454"><code>HREADYOUT</code></span> 保持为 LOW；Interconnect 汇总后把系统侧 <span style="color:#ffb454"><code>HREADY</code></span> 置为 LOW，插入等待状态。当 <span style="color:#63d297"><code>HREADY=HIGH</code></span> 时，表示当前数据阶段可以完成。（IHI 0033C，1.3 节，第 1-18 页；连接关系见 4.1～4.3 节）
+数据阶段至少占一个周期。如果 Subordinate 尚未准备好，它将 <span style="color:#ffb454"><code>HREADYOUT</code></span> 保持为 LOW；Interconnect 汇总后把系统侧 <span style="color:#ffb454"><code>HREADY</code></span> 置为 LOW，插入等待状态。当 <span style="color:#63d297"><code>HREADY=1</code></span> 时，表示当前数据阶段可以完成。（IHI 0033C，1.3 节，第 1-18 页；连接关系见 4.1～4.3 节）
 
 ### 6.3 数据方向
 
@@ -263,7 +263,7 @@ flowchart LR
 ```mermaid
 flowchart TD
     A["<b>第一步｜发起请求</b><br/>Manager 输出地址与控制信息<br/><code>HADDR</code> · <code>HWRITE</code> · <code>HSIZE</code><br/><code>HBURST</code> · <code>HPROT</code> · <code>HTRANS</code>"] --> B["<b>第二步｜地址译码</b><br/>Decoder 根据 <code>HADDR</code><br/>选择目标 Subordinate<br/>输出 <code>HSELx</code>"]
-    B --> C["<b>第三步｜接收请求</b><br/>有效非 IDLE 传输中，目标 Subordinate 在 <code>HSELx=HIGH</code> 且 <code>HREADY=HIGH</code> 时采样地址与控制<br/><code>HSELx</code> · <code>HADDR</code> · <code>HREADY</code>"]
+    B --> C["<b>第三步｜接收请求</b><br/>有效非 IDLE 传输中，目标 Subordinate 在 <code>HSELx=1</code> 且 <code>HREADY=1</code> 时采样地址与控制<br/><code>HSELx</code> · <code>HADDR</code> · <code>HREADY</code>"]
     C --> D{"<b>第四步</b><br/>读还是写？"}
     D -->|"写"| E["<b>写操作</b><br/>Manager 输出写数据<br/><code>HWDATA</code><br/>Subordinate 执行写入"]
     D -->|"读"| F["<b>读操作</b><br/>Subordinate 执行读取<br/>输出 <code>HRDATA</code>"]
@@ -276,9 +276,9 @@ flowchart TD
 这张图可以按一次传输的流程来读：
 
 1. **第一步：Manager 发出请求。** Manager 从右侧输出 `HADDR`、`HWRITE`、`HSIZE`、`HBURST`、`HPROT`、`HTRANS` 和 `HMASTLOCK`，共同描述目标地址、读写方向、传输大小、Burst 属性、保护属性以及是否属于锁定序列。
-2. **第二步：系统执行访问。** Decoder/Interconnect 根据地址产生 `HSELx`，确定这笔有效传输的目标 Subordinate；目标 Subordinate 只在被选中且 `HREADY=HIGH` 时采样地址与控制。`HCLK` 提供时序，`HRESETn` 提供复位。
+2. **第二步：系统执行访问。** Decoder/Interconnect 根据地址产生 `HSELx`，确定这笔有效传输的目标 Subordinate；目标 Subordinate 只在被选中且 `HREADY=1` 时采样地址与控制。`HCLK` 提供时序，`HRESETn` 提供复位。
 3. **第三步：传送数据。** 如果是写操作，Manager 从右侧输出 `HWDATA`；如果是读操作，Subordinate 将结果通过左侧的 `HRDATA` 返回 Manager。
-4. **第四步：返回传输结果。** <span style="color:#4ea1ff"><code>HREADY</code></span> 告诉 Manager 当前数据阶段的传输是否完成，<span style="color:#4ea1ff"><code>HRESP</code></span> 告诉 Manager 传输成功还是失败。若 <span style="color:#ffb454"><code>HREADY=LOW</code></span>，数据阶段还需要继续等待，并会保持下一笔传输的地址与控制。
+4. **第四步：返回传输结果。** <span style="color:#4ea1ff"><code>HREADY</code></span> 告诉 Manager 当前数据阶段的传输是否完成，<span style="color:#4ea1ff"><code>HRESP</code></span> 告诉 Manager 传输成功还是失败。若 <span style="color:#ffb454"><code>HREADY=0</code></span>，数据阶段还需要继续等待，并会保持下一笔传输的地址与控制。
 
 因此，图中的核心方向是：**右侧发起请求，系统完成访问，左侧返回读数据和传输结果。**
 
@@ -339,8 +339,8 @@ flowchart TD
 
 ### 8.3 `HREADY` 与 `HRESP`
 
-- <span style="color:#ffb454"><code>HREADYOUT=LOW</code></span>：目标 Subordinate 尚未完成数据阶段，请求继续等待。
-- <span style="color:#ffb454"><code>HREADY=LOW</code></span>：Interconnect 生成的系统级结果，表示当前数据阶段还要继续等待；它同时用于让各 Subordinate 知道前一笔传输是否已经完成。
+- <span style="color:#ffb454"><code>HREADYOUT=0</code></span>：目标 Subordinate 尚未完成数据阶段，请求继续等待。
+- <span style="color:#ffb454"><code>HREADY=0</code></span>：Interconnect 生成的系统级结果，表示当前数据阶段还要继续等待；它同时用于让各 Subordinate 知道前一笔传输是否已经完成。
 - <span style="color:#4ea1ff"><code>HRESP</code></span>：说明传输最终是成功还是失败。
 
 ### 8.4 Address phase 与 Data phase
@@ -423,7 +423,7 @@ flowchart TD
 <details>
 <summary>3. Subordinate 需要更多时间时，应延长哪个阶段？</summary>
 
-> <span style="color:#ffb454">延长数据阶段。Subordinate 输出 <code>HREADYOUT=LOW</code>，由 Interconnect 汇总成系统侧 <code>HREADY=LOW</code>，插入等待状态；地址阶段不能被延长。</span>
+> <span style="color:#ffb454">延长数据阶段。Subordinate 输出 <code>HREADYOUT=0</code>，由 Interconnect 汇总成系统侧 <code>HREADY=0</code>，插入等待状态；地址阶段不能被延长。</span>
 
 </details>
 
@@ -437,7 +437,7 @@ flowchart TD
 <details>
 <summary>5. 为什么 Subordinate 也接收 <code>HREADY</code>？</summary>
 
-> `HREADY` 是 Interconnect 生成的系统级传输完成指示，不只是 Manager 使用的信号。Subordinate 需要通过输入的 `HREADY` 知道当前数据阶段是否已经完成：当 `HREADY=LOW` 时，当前数据阶段仍在等待，下一笔地址和控制必须保持；当 `HREADY=HIGH` 时，当前数据阶段可以结束，下一笔地址和控制才可在该时刻正式推进。更详细的信号连接和时序说明见[为什么 Subordinate 也接收 `HREADY`](为什么Subordinate也接收HREADY.md)。
+> `HREADY` 是 Interconnect 生成的系统级传输完成指示，不只是 Manager 使用的信号。Subordinate 需要通过输入的 `HREADY` 知道当前数据阶段是否已经完成：当 `HREADY=0` 时，当前数据阶段仍在等待，下一笔地址和控制必须保持；当 `HREADY=1` 时，当前数据阶段可以结束，下一笔地址和控制才可在该时刻正式推进。更详细的信号连接和时序说明见[为什么 Subordinate 也接收 `HREADY`](为什么Subordinate也接收HREADY.md)。
 
 </details>
 
