@@ -275,7 +275,7 @@ Subordinate 输出的 `HRDATA`、`HRESP` 是局部返回；Multiplexor 输出的
 
 - [Chapter 3 Transfers 精读](ARM_AMBA_AHB_Protocol_Specification_IHI0033C-第三章传输.md)：`HTRANS`、`HBURST`、`HSIZE`、写选通和基本传输时序；
 - Chapter 4：Decoder、Multiplexor、`HREADYOUT` 与 `HREADY` 的连接；
-- Chapter 5：`OKAY`、`ERROR` 及错误响应时序；
+- [第五章 Subordinate Response Signaling 响应信号精读](ARM_AMBA_AHB_Protocol_Specification_IHI0033C-第五章Subordinate响应信号.md)：`OKAY`、`ERROR` 及错误响应时序；
 - Chapter 10 和 Appendix A：本文刻意排除的 AHB5 可选信号与完整接口属性。
 
 </details>

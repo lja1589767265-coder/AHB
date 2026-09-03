@@ -349,7 +349,7 @@ Burst 可能因为以下情况提前结束：
 等待期间，Manager 通常只能为准备中的下一笔传输改变一次地址；有两个重要例外：
 
 1. **当前为 `IDLE`：** 地址可以在连续的 `IDLE` 周期中改变，因为这些地址不会产生数据传输。一旦 `HTRANS` 改为 `NONSEQ`，地址必须保持到 `HREADY=1`。
-2. **两周期 `ERROR` 响应：** 在 `HREADY=0` 的第一个 ERROR 周期之后，Manager 可以把 `HTRANS` 改为 `IDLE` 并改变地址；完整 ERROR 时序在 Chapter 5 定义。
+2. **两周期 `ERROR` 响应：** 在 `HREADY=0` 的第一个 ERROR 周期之后，Manager 可以把 `HTRANS` 改为 `IDLE` 并改变地址；完整 ERROR 时序在[第五章 Subordinate Response Signaling 响应信号精读](ARM_AMBA_AHB_Protocol_Specification_IHI0033C-第五章Subordinate响应信号.md)定义。
 
 > <span style="color:#ffb454"><strong>分析方法：</strong></span> 先找出当前数据阶段是谁，再看同周期地址阶段是有效传输、`IDLE` 还是 `BUSY`。不要只看到 `HREADY=0` 就忽略 `HTRANS` 所定义的例外。
 
@@ -737,14 +737,14 @@ Subordinate B：0x1000～0x1FFF
 本章解释 Manager 如何发起不同类型的传输，但不展开以下主题：
 
 - Decoder、Multiplexor、`HREADYOUT` 与系统 `HREADY` 的完整连接：继续阅读 Chapter 4 Bus Interconnection；
-- `OKAY`、两周期 `ERROR` 和响应采样时序：继续阅读 Chapter 5 Subordinate Response Signaling；
+- `OKAY`、两周期 `ERROR` 和响应采样时序：继续阅读[第五章 Subordinate Response Signaling 响应信号精读](ARM_AMBA_AHB_Protocol_Specification_IHI0033C-第五章Subordinate响应信号.md)；
 - 窄传输在不同端序和数据总线宽度上的字节通道映射：继续阅读 Chapter 6 Data Buses；
 - 信号在复位、等待及非活动阶段何时必须有效：继续阅读 Chapter 8 Signal validity。
 
 资料来源：
 
 - [AMBA AHB Protocol Specification, Arm IHI 0033C](ARM_AMBA_AHB_Protocol_Specification_IHI0033C.pdf)，Issue C，ID090921，2021 年 9 月 15 日；本文精读 Chapter 3 的基础传输内容，PDF 第 27-45 页（文档页码 3-27～3-45）。
-- 信号方向和接口可选性同时参考同一规范 Chapter 2；ERROR 响应说明引用 Chapter 5 的后续定义，但本文不替代这些章节。
+- 信号方向和接口可选性同时参考同一规范 Chapter 2；ERROR 响应说明引用[第五章 Subordinate Response Signaling 响应信号精读](ARM_AMBA_AHB_Protocol_Specification_IHI0033C-第五章Subordinate响应信号.md)的后续定义，但本文不替代这些章节。
 
 </details>
 

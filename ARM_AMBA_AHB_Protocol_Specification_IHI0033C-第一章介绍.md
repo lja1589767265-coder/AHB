@@ -461,7 +461,7 @@ flowchart TD
 - 每个信号的完整定义和可选性：阅读独立的[第二章信号描述精读](ARM_AMBA_AHB_Protocol_Specification_IHI0033C-第二章信号描述.md)和 Appendix A；
 - `HTRANS`、`HBURST`、`HSIZE`、等待传输及详细时序：阅读 Chapter 3；
 - Decoder、Multiplexor、`HREADYOUT` 到 `HREADY` 的连接：阅读 Chapter 4；
-- `HRESP` 的响应时序：阅读 Chapter 5；
+- `HRESP` 的响应时序：阅读[第五章 Subordinate Response Signaling 响应信号精读](ARM_AMBA_AHB_Protocol_Specification_IHI0033C-第五章Subordinate响应信号.md)；
 - 数据宽度和大小端：阅读 Chapter 6；
 - AHB5 的 Exclusive、User signaling 和 parity：阅读 Chapter 10-12。
 

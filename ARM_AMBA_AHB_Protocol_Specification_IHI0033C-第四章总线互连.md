@@ -172,7 +172,7 @@ HTRANS[1]=1    // NONSEQ 或 SEQ
 - 对真实访问给出明确错误，避免 Manager 永久等待或误把无效地址当作成功访问；
 - 对 `IDLE/BUSY` 这类不产生数据传输的总线状态快速返回，不制造无意义的等待或错误。
 
-> **重要边界：** Chapter 4 只规定未映射有效访问应得到 `ERROR`。`ERROR` 的两周期响应时序、`HRESP` 与 `HREADYOUT/HREADY` 的具体组合由 Chapter 5 说明，本章不提前展开。
+> **重要边界：** Chapter 4 只规定未映射有效访问应得到 `ERROR`。`ERROR` 的两周期响应时序、`HRESP` 与 `HREADYOUT/HREADY` 的具体组合由[第五章 Subordinate Response Signaling 响应信号精读](ARM_AMBA_AHB_Protocol_Specification_IHI0033C-第五章Subordinate响应信号.md)说明，本章不提前展开。
 
 > **工程推断：** Default Subordinate 必须覆盖所有未被正常 Decoder 命中的地址。验证环境可随机生成未映射地址，并分别覆盖四种 `HTRANS`，检查有效传输报错、非有效传输零等待返回。
 
@@ -447,7 +447,7 @@ Figure 4-3 采用显式 `HSEL`：Interconnect 只对目标 Subordinate 断言选
 <details>
 <summary>5. Default Subordinate 对四种 <code>HTRANS</code> 应如何响应？</summary>
 
-> 对未映射地址的 `NONSEQ/SEQ` 有效传输返回 `ERROR`；对 `IDLE/BUSY` 返回零等待 `OKAY`。`ERROR` 的具体两周期时序由 Chapter 5 规定。
+> 对未映射地址的 `NONSEQ/SEQ` 有效传输返回 `ERROR`；对 `IDLE/BUSY` 返回零等待 `OKAY`。`ERROR` 的具体两周期时序由[第五章 Subordinate Response Signaling 响应信号精读](ARM_AMBA_AHB_Protocol_Specification_IHI0033C-第五章Subordinate响应信号.md)规定。
 
 </details>
 
@@ -515,7 +515,7 @@ Figure 4-3 采用显式 `HSEL`：Interconnect 只对目标 Subordinate 断言选
 本章解释 AHB 系统所需的基本互连功能，但不展开以下主题：
 
 - Manager 发起传输、Burst 和等待期间信号变化的完整规则：参见 [第三章 Transfers 基础内容精读](ARM_AMBA_AHB_Protocol_Specification_IHI0033C-第三章传输.md)；
-- `OKAY`、两周期 `ERROR` 和响应采样时序：继续阅读 Chapter 5 Subordinate Response Signaling；
+- `OKAY`、两周期 `ERROR` 和响应采样时序：继续阅读[第五章 Subordinate Response Signaling 响应信号精读](ARM_AMBA_AHB_Protocol_Specification_IHI0033C-第五章Subordinate响应信号.md)；
 - 不同数据总线宽度、窄传输和端序：继续阅读 Chapter 6 Data Buses；
 - 复位、等待和非活动状态下的信号有效性：继续阅读 Chapter 8 Signal validity；
 - Exclusive Transfers 与 `HEXOKAY` 的语义：继续阅读 Chapter 10 Exclusive Transfers；
@@ -524,7 +524,7 @@ Figure 4-3 采用显式 `HSEL`：Interconnect 只对目标 Subordinate 断言选
 资料来源：
 
 - [AMBA AHB Protocol Specification, Arm IHI 0033C](ARM_AMBA_AHB_Protocol_Specification_IHI0033C.pdf)，Issue C，ID090921，2021 年 9 月 15 日；本文精读 Chapter 4，PDF 第 53-58 页（文档页码 4-53～4-58）。
-- 地址阶段、数据阶段和等待期间信号变化同时参考同一规范 Chapter 2 与 Chapter 3；Default Subordinate 的 `ERROR` 细节应结合 Chapter 5 阅读。
+- 地址阶段、数据阶段和等待期间信号变化同时参考同一规范 Chapter 2 与 Chapter 3；Default Subordinate 的 `ERROR` 细节应结合[第五章 Subordinate Response Signaling 响应信号精读](ARM_AMBA_AHB_Protocol_Specification_IHI0033C-第五章Subordinate响应信号.md)阅读。
 - 规范在 4.1 节引用 *Multi-layer AHB Technical Overview*（Arm DVI 0045），用于进一步了解 multi-layer AHB-Lite Interconnect；本文未使用该资料扩展规范性要求。
 
 </details>
