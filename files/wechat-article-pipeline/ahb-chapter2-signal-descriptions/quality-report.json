@@ -1,0 +1,16 @@
+{
+  "visuals": {
+    "body-1": {
+      "source": "path",
+      "embedded": false,
+      "path": "C:\\Users\\admin\\Desktop\\项目\\AHB\\image\\ahb-chapter2-signal-descriptions\\body-1.png",
+      "reference_dir": "C:\\Users\\admin\\Desktop\\项目\\AHB\\files"
+    },
+    "cover": {
+      "source": "path",
+      "embedded": false,
+      "path": "C:\\Users\\admin\\Desktop\\项目\\AHB\\image\\ahb-chapter2-signal-descriptions\\cover.png",
+      "reference_dir": "C:\\Users\\admin\\Desktop\\项目\\AHB\\files"
+    }
+  }
+}

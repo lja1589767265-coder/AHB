@@ -13,38 +13,19 @@
 
 ## 目录
 
-- [1. 阅读方式](#1-阅读方式)
-- [2. Interconnect 的职责与范围](#2-interconnect-的职责与范围)
-- [3. 地址译码与 HSELx](#3-地址译码与-hselx)
-- [4. Default Subordinate 与多个 HSELx](#4-default-subordinate-与多个-hselx)
-- [5. 读数据与响应 Multiplexor](#5-读数据与响应-multiplexor)
-- [6. 带 AHB 接口的通用 Interconnect](#6-带-ahb-接口的通用-interconnect)
-- [7. 一笔传输如何穿过 Interconnect](#7-一笔传输如何穿过-interconnect)
-- [8. 易错点、口诀与自测](#8-易错点口诀与自测)
-- [9. 问题记录与解答](#9-问题记录与解答)
-- [10. 本章边界与资料来源](#10-本章边界与资料来源)
+- 1. Interconnect 的职责与范围
+- 2. 地址译码与 HSELx
+- 3. Default Subordinate 与多个 HSELx
+- 4. 读数据与响应 Multiplexor
+- 5. 带 AHB 接口的通用 Interconnect
+- 6. 一笔传输如何穿过 Interconnect
+- 7. 易错点、口诀与自测
+- 8. 问题记录与解答
+- 9. 本章边界与资料来源
 
-<a id="1-阅读方式"></a>
-<details open>
-<summary><strong>1. 阅读方式</strong></summary>
-
-建议按以下顺序阅读：
-
-1. 先读第 2 节，明确单 Manager 与多 Manager 系统需要怎样的 Interconnect。
-2. 再读第 3～5 节，把请求方向的 `HSELx` 和返回方向的 `HRDATA/HRESP/HREADY` 分开。
-3. 第 6 节解释通用 Interconnect 两侧都采用 AHB 接口时，为什么会看到多个方向不同的 `HREADY` 类信号。
-4. 第 7 节把译码、采样、返回选择和等待串成一笔完整传输。
-5. 最后使用 [8.3 自测题](#chapter4-self-test) 检查理解；阅读过程中产生的新问题将集中记录在 [9. 问题记录与解答](#9-问题记录与解答)。
-
-如果只想先记住一条主线，可以从下面这句话开始：
-
-> <span style="color:#63d297"><strong>Decoder 决定请求发给谁；Multiplexor 决定谁的返回值送回 Manager；两次选择必须属于同一笔传输。</strong></span>
-
-</details>
-
-<a id="2-interconnect-的职责与范围"></a>
+<a id="1-interconnect-的职责与范围"></a>
 <details>
-<summary><strong>2. Interconnect 的职责与范围</strong></summary>
+<summary><strong>1. Interconnect 的职责与范围</strong></summary>
 
 Interconnect 连接系统中的 Manager 和 Subordinate（IHI 0033C，4.1 节，第 4-54 页）。系统规模不同，所需功能也不同：
 
@@ -76,11 +57,11 @@ Interconnect 连接系统中的 Manager 和 Subordinate（IHI 0033C，4.1 节，
 
 </details>
 
-<a id="3-地址译码与-hselx"></a>
+<a id="2-地址译码与-hselx"></a>
 <details>
-<summary><strong>3. 地址译码与 <code>HSELx</code></strong></summary>
+<summary><strong>2. 地址译码与 <code>HSELx</code></strong></summary>
 
-### 3.1 Decoder 根据地址产生选择信号
+### 2.1 Decoder 根据地址产生选择信号
 
 地址 Decoder 为每个 Subordinate 产生独立的选择信号 `HSELx`。Manager 的地址总线通常广播到各 Subordinate，Decoder 根据 `HADDR` 的高位地址范围，只对匹配的目标接口断言相应的 `HSELx`（IHI 0033C，4.2 节，第 4-55 页）。
 
@@ -97,7 +78,7 @@ Interconnect 连接系统中的 Manager 和 Subordinate（IHI 0033C，4.1 节，
 
 `HSELx` 回答的是<span style="color:#4ea1ff"><strong>“当前地址阶段指向谁”</strong></span>。它不是完成指示，也不是传输结果，不能代替 `HREADY` 或 `HRESP`。
 
-### 3.2 Subordinate 只在 `HREADY=1` 时正式采样
+### 2.2 Subordinate 只在 `HREADY=1` 时正式采样
 
 Subordinate 只能在 `HREADY=1` 时采样 `HSELx`、地址和控制信号。此时当前数据阶段正在完成，流水线才允许当前地址阶段被正式接受。
 
@@ -121,7 +102,7 @@ HTRANS[1]=1    // NONSEQ 或 SEQ
 
 > **相关专题：** [为什么不能用当前地址阶段的 HSELx 直接选择当前返回值](<为什么不能用当前地址阶段的 HSELx 直接选择当前返回值.md>)。
 
-### 3.3 地址区域与 1KB 边界
+### 2.3 地址区域与 1KB 边界
 
 规范对地址映射提出两条配套要求：
 
@@ -144,11 +125,11 @@ HTRANS[1]=1    // NONSEQ 或 SEQ
 
 </details>
 
-<a id="4-default-subordinate-与多个-hselx"></a>
+<a id="3-default-subordinate-与多个-hselx"></a>
 <details>
-<summary><strong>4. Default Subordinate 与多个 <code>HSELx</code></strong></summary>
+<summary><strong>3. Default Subordinate 与多个 <code>HSELx</code></strong></summary>
 
-### 4.1 未映射地址必须得到确定响应
+### 3.1 未映射地址必须得到确定响应
 
 如果系统地址图没有覆盖全部地址空间，就必须实现额外的 Default Subordinate（默认 Subordinate），对不存在的地址位置提供响应（IHI 0033C，4.2.1 节，第 4-55 页）。
 
@@ -176,7 +157,7 @@ HTRANS[1]=1    // NONSEQ 或 SEQ
 
 > **工程推断：** Default Subordinate 必须覆盖所有未被正常 Decoder 命中的地址。验证环境可随机生成未映射地址，并分别覆盖四种 `HTRANS`，检查有效传输报错、非有效传输零等待返回。
 
-### 4.2 一个物理接口可以有多个逻辑地址入口
+### 3.2 一个物理接口可以有多个逻辑地址入口
 
 一个 Subordinate 接口允许接收多个 `HSELx`。每个 `HSELx` 对应高位地址的一种不同译码，因此同一个物理接口可以在系统地址图中表现为多个逻辑接口（IHI 0033C，4.2.2 节，第 4-55 页）。
 
@@ -193,11 +174,11 @@ HTRANS[1]=1    // NONSEQ 或 SEQ
 
 </details>
 
-<a id="5-读数据与响应-multiplexor"></a>
+<a id="4-读数据与响应-multiplexor"></a>
 <details>
-<summary><strong>5. 读数据与响应 Multiplexor</strong></summary>
+<summary><strong>4. 读数据与响应 Multiplexor</strong></summary>
 
-### 5.1 返回通路为什么需要选择
+### 4.1 返回通路为什么需要选择
 
 Manager 把地址和控制信息送往各 Subordinate，Decoder 在请求方向选择目标；目标 Subordinate 在数据阶段产生读数据、完成状态和响应。多个 Subordinate 都有自己的返回输出，因此 Interconnect 必须从中选出当前数据阶段对应的一组，再送回 Manager（IHI 0033C，4.3 节，第 4-56 页）。
 
@@ -217,7 +198,7 @@ Manager 把地址和控制信息送往各 Subordinate，Decoder 在请求方向�
 
 > **相关专题：** [为什么 Subordinate 也接收 HREADY](为什么Subordinate也接收HREADY.md)。
 
-### 5.2 返回选择必须与数据阶段对齐
+### 4.2 返回选择必须与数据阶段对齐
 
 AHB 是流水线总线。一个周期中经常同时存在：
 
@@ -262,7 +243,7 @@ AHB 是流水线总线。一个周期中经常同时存在：
 
 完整辨析见：[为什么不能用当前地址阶段的 HSELx 直接选择当前返回值](<为什么不能用当前地址阶段的 HSELx 直接选择当前返回值.md>)。
 
-### 5.3 `HREADY` 为什么还要反馈给所有 Subordinate
+### 4.3 `HREADY` 为什么还要反馈给所有 Subordinate
 
 Multiplexor 选出的 `HREADY` 不只返回 Manager，也反馈给所有 Subordinate。它代表<span style="color:#63d297"><strong>当前系统传输是否可以在这个边沿完成并推进</strong></span>。
 
@@ -274,7 +255,7 @@ Multiplexor 选出的 `HREADY` 不只返回 Manager，也反馈给所有 Subordi
 
 未被选中的 Subordinate 虽然不决定当前 `HREADY`，仍需要观察它来判断地址阶段是否推进。详细解释见：[为什么 Subordinate 也接收 HREADY](为什么Subordinate也接收HREADY.md)。
 
-### 5.4 支持 Exclusive Transfers 时的额外返回
+### 4.4 支持 Exclusive Transfers 时的额外返回
 
 Figure 4-2 只画出核心返回信号。规范注记指出，如果系统支持 Exclusive Transfers，Multiplexor 还必须把正确 Subordinate 的 `HEXOKAY` 路由给 Manager。
 
@@ -300,9 +281,9 @@ flowchart LR
 
 </details>
 
-<a id="6-带-ahb-接口的通用-interconnect"></a>
+<a id="5-带-ahb-接口的通用-interconnect"></a>
 <details>
-<summary><strong>6. 带 AHB 接口的通用 Interconnect</strong></summary>
+<summary><strong>5. 带 AHB 接口的通用 Interconnect</strong></summary>
 
 通用 Interconnect 可能同时提供 AHB、AXI、APB 等不同协议接口。Figure 4-3 用简化连接说明：当 Interconnect 的 Manager 侧和 Subordinate 侧都采用 AHB 接口时，`HTRANS`、`HSEL`、`HREADY` 和 `HREADYOUT` 如何分工（IHI 0033C，4.4 节，第 4-57～4-58 页）。
 
@@ -310,7 +291,7 @@ flowchart LR
 
 *图 3：原规范 Figure 4-3，两个 AHB Manager 通过通用 AHB Interconnect 连接两个 AHB Subordinate。此图只突出 `HTRANS`、`HSEL`、`HREADYOUT` 和 `HREADY`，没有画出完整地址、控制、数据和响应信号。来源：IHI 0033C，第 4-57 页。Copyright © 2001, 2006, 2010, 2015, 2021 Arm Limited or its affiliates. All rights reserved.*
 
-### 6.1 Manager 侧接口
+### 5.1 Manager 侧接口
 
 Interconnect 面向每个 AHB Manager 时表现为一个 AHB Subordinate：
 
@@ -320,7 +301,7 @@ Interconnect 面向每个 AHB Manager 时表现为一个 AHB Subordinate：
 
 因此，Manager 不需要知道停顿来自外部 Subordinate 还是 Interconnect 内部资源竞争。它只需遵守 AHB 的等待规则，在 `HREADY=0` 时保持规定必须稳定的信号。
 
-### 6.2 Subordinate 侧接口
+### 5.2 Subordinate 侧接口
 
 Interconnect 面向每个 AHB Subordinate 时表现为一个 AHB Manager：
 
@@ -336,7 +317,7 @@ Interconnect 面向每个 AHB Subordinate 时表现为一个 AHB Manager：
 | `HREADYOUT` | AHB Subordinate | Interconnect | 本接口对当前数据阶段给出的局部完成状态 |
 | `HREADY` | Interconnect | AHB Subordinate | 系统侧传输是否推进；可因前一笔数据阶段停顿而为 0 |
 
-### 6.3 `HSEL` 与强制 `HTRANS=IDLE` 的两种接口方式
+### 5.3 `HSEL` 与强制 `HTRANS=IDLE` 的两种接口方式
 
 Figure 4-3 采用显式 `HSEL`：Interconnect 只对目标 Subordinate 断言选择信号。
 
@@ -351,9 +332,9 @@ Figure 4-3 采用显式 `HSEL`：Interconnect 只对目标 Subordinate 断言选
 
 </details>
 
-<a id="7-一笔传输如何穿过-interconnect"></a>
+<a id="6-一笔传输如何穿过-interconnect"></a>
 <details>
-<summary><strong>7. 一笔传输如何穿过 Interconnect</strong></summary>
+<summary><strong>6. 一笔传输如何穿过 Interconnect</strong></summary>
 
 把本章规则串起来，一笔无等待读传输可以分成以下步骤：
 
@@ -377,7 +358,7 @@ Figure 4-3 采用显式 `HSEL`：Interconnect 只对目标 Subordinate 断言选
 
 > <span style="color:#63d297"><strong>完整闭环：</strong></span> 地址决定 `HSELx`，被接受的 `HSELx` 决定下一数据阶段的返回目标；目标 `HREADYOUT` 形成系统 `HREADY`，系统 `HREADY` 又决定所有接口能否采样和推进。
 
-### 7.1 可直接用于实现或验证的检查点
+### 6.1 可直接用于实现或验证的检查点
 
 以下内容是依据 Chapter 2～4 规则整理的工程检查项：
 
@@ -392,11 +373,11 @@ Figure 4-3 采用显式 `HSEL`：Interconnect 只对目标 Subordinate 断言选
 
 </details>
 
-<a id="8-易错点口诀与自测"></a>
+<a id="7-易错点口诀与自测"></a>
 <details>
-<summary><strong>8. 易错点、口诀与自测</strong></summary>
+<summary><strong>7. 易错点、口诀与自测</strong></summary>
 
-### 8.1 易错点
+### 7.1 易错点
 
 1. **把 `HSELx` 当成传输已接受。** `HSELx` 只表示地址译码命中；Subordinate 还要在 `HREADY=1` 时采样，并结合 `HTRANS` 判断是否为有效传输。
 2. **用当前 `HSELx` 直接选择当前返回值。** 当前 `HSELx` 属于地址阶段，而当前返回属于上一笔传输的数据阶段，必须用与数据阶段对齐的选择信息。
@@ -408,13 +389,13 @@ Figure 4-3 采用显式 `HSEL`：Interconnect 只对目标 Subordinate 断言选
 8. **认为 Manager 侧 `HREADY=0` 只能来自 Subordinate。** 在通用 Interconnect 中，内部仲裁等待也可以让某个 Manager 侧接口停顿。
 9. **看到 `HSEL` 固定为 1 就认为接口始终执行传输。** 规范允许对未选中接口强制 `HTRANS=IDLE`，所以有效性仍由信号组合决定。
 
-### 8.2 记忆口诀
+### 7.2 记忆口诀
 
 > <span style="color:#63d297"><strong>地址译码选入口，数据阶段选出口；局部 Ready 进互连，系统 Ready 管推进。</strong></span>
 
 <a id="chapter4-self-test"></a>
 
-### 8.3 自测题
+### 7.3 自测题
 
 <details>
 <summary>1. 单 Manager 系统为什么仍然需要 Interconnect？</summary>
@@ -474,9 +455,9 @@ Figure 4-3 采用显式 `HSEL`：Interconnect 只对目标 Subordinate 断言选
 
 </details>
 
-<a id="9-问题记录与解答"></a>
+<a id="8-问题记录与解答"></a>
 
-## 9. 问题记录与解答
+## 8. 问题记录与解答
 
 本章已记录的独立问题如下。与本章直接相关的已有专题如下：
 
@@ -508,15 +489,15 @@ Figure 4-3 采用显式 `HSEL`：Interconnect 只对目标 Subordinate 断言选
 
 后续如在阅读 Figure 4-1～4-3、地址映射或返回选择规则时产生具体问题，应在实际引发问题的位置添加入口，并在本节为每个问题建立独立锚点和折叠答案。
 
-<a id="10-本章边界与资料来源"></a>
+<a id="9-本章边界与资料来源"></a>
 <details>
-<summary><strong>10. 本章边界与资料来源</strong></summary>
+<summary><strong>9. 本章边界与资料来源</strong></summary>
 
 本章解释 AHB 系统所需的基本互连功能，但不展开以下主题：
 
 - Manager 发起传输、Burst 和等待期间信号变化的完整规则：参见 [第三章 Transfers 基础内容精读](ARM_AMBA_AHB_Protocol_Specification_IHI0033C-第三章传输.md)；
 - `OKAY`、两周期 `ERROR` 和响应采样时序：继续阅读[第五章 Subordinate Response Signaling 响应信号精读](ARM_AMBA_AHB_Protocol_Specification_IHI0033C-第五章Subordinate响应信号.md)；
-- 不同数据总线宽度、窄传输和端序：继续阅读 Chapter 6 Data Buses；
+- 不同数据总线宽度、窄传输和端序：继续阅读[第六章 Data Buses 数据总线精读](ARM_AMBA_AHB_Protocol_Specification_IHI0033C-第六章数据总线.md)；
 - 复位、等待和非活动状态下的信号有效性：继续阅读 Chapter 8 Signal validity；
 - Exclusive Transfers 与 `HEXOKAY` 的语义：继续阅读 Chapter 10 Exclusive Transfers；
 - single-layer、multi-layer Interconnect 的具体结构、仲裁策略、性能和公平性：不在 IHI 0033C 的详细规定范围内。

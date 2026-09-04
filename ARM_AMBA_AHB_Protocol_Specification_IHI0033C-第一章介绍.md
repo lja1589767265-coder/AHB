@@ -12,19 +12,19 @@
 
 ## 目录
 
-- [1. 学完本章应该掌握什么](#1-学完本章应该掌握什么)
-- [2. AHB 是什么](#2-ahb-是什么)
-- [3. AHB 系统的组成](#3-ahb-系统的组成)
-- [4. 单 Manager 与多 Manager](#4-单-manager-与多-manager)
-- [5. AHB-Lite、AHB5 与 Issue C](#5-ahb-liteahb5-与-issue-c)
-- [6. 一次 AHB 传输怎样工作](#6-一次-ahb-传输怎样工作)
-- [7. 三张接口图怎么读](#7-三张接口图怎么读)
-- [8. 容易混淆的概念](#8-容易混淆的概念)
-- [9. 术语表](#9-术语表)
-- [10. 本章学习口诀](#10-本章学习口诀)
-- [11. 自测题](#11-自测题)
-- [12. 本章边界与后续阅读](#12-本章边界与后续阅读)
-- [13. 资料来源](#13-资料来源)
+- 1. 学完本章应该掌握什么
+- 2. AHB 是什么
+- 3. AHB 系统的组成
+- 4. 单 Manager 与多 Manager
+- 5. AHB-Lite、AHB5 与 Issue C
+- 6. 一次 AHB 传输怎样工作
+- 7. 三张接口图怎么读
+- 8. 容易混淆的概念
+- 9. 术语表
+- 10. 本章学习口诀
+- 11. 自测题
+- 12. 本章边界与后续阅读
+- 13. 资料来源
 
 <a id="1-学完本章应该掌握什么"></a>
 <details open>
@@ -462,7 +462,7 @@ flowchart TD
 - `HTRANS`、`HBURST`、`HSIZE`、等待传输及详细时序：阅读 Chapter 3；
 - Decoder、Multiplexor、`HREADYOUT` 到 `HREADY` 的连接：阅读 Chapter 4；
 - `HRESP` 的响应时序：阅读[第五章 Subordinate Response Signaling 响应信号精读](ARM_AMBA_AHB_Protocol_Specification_IHI0033C-第五章Subordinate响应信号.md)；
-- 数据宽度和大小端：阅读 Chapter 6；
+- 数据宽度和大小端：阅读[第六章 Data Buses 数据总线精读](ARM_AMBA_AHB_Protocol_Specification_IHI0033C-第六章数据总线.md)；
 - AHB5 的 Exclusive、User signaling 和 parity：阅读 Chapter 10-12。
 
 学完本章后，最合适的下一步是阅读第二章的信号表，再进入第三章分析基本传输时序。

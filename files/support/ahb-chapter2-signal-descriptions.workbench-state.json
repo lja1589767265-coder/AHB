@@ -1,0 +1,34 @@
+{
+  "coreRevision": 2,
+  "manifest": {
+    "state": "not_configured",
+    "targetRevision": 2
+  },
+  "assets": {
+    "state": "stale",
+    "staleVisuals": [
+      "body-1",
+      "cover"
+    ],
+    "missingVisuals": [],
+    "baselines": {
+      "body-1": {
+        "sourceFingerprint": "60c678c3fe6fe22f65a6639f15f08a203b2e6fe483f64d0c77773262a4c12054",
+        "assetFingerprint": "4b752b1223d7f99b0c52ff81cdc5b47366285a72161af71a22e5c7a9574b860b"
+      },
+      "cover": {
+        "sourceFingerprint": "e9d5b368762c6ab378b669a5cc617b874c9ac777725e812a005d11181bba2290",
+        "assetFingerprint": "0b370ade48d3682bad2a56ac9b1940d4aa7d75c1588bed840c3928c2be820a0f"
+      }
+    }
+  },
+  "source_state": {
+    "core_revision": 2,
+    "asset_state": "stale",
+    "stale_visuals": [
+      "body-1",
+      "cover"
+    ],
+    "missing_visuals": []
+  }
+}

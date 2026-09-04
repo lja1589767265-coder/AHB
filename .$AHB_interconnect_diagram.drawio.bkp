@@ -1,0 +1,106 @@
+<mxfile host="app.diagrams.net" modified="2026-09-01T00:00:00.000Z" agent="Codex" version="26.0.16" type="device">
+  <diagram id="ahb-interconnect" name="AHB Interconnect">
+    <mxGraphModel dx="1800" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1800" pageHeight="900" math="0" shadow="0" background="#ffffff">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <mxCell id="manager" value="Manager" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#222222;strokeWidth=2;fontFamily=Arial;fontSize=28;" vertex="1" parent="1">
+          <mxGeometry x="50" y="50" width="230" height="790" as="geometry"/>
+        </mxCell>
+        <mxCell id="decoder" value="Decoder" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#222222;strokeWidth=2;fontFamily=Arial;fontSize=27;" vertex="1" parent="1">
+          <mxGeometry x="590" y="230" width="260" height="180" as="geometry"/>
+        </mxCell>
+        <mxCell id="mux" value="" style="shape=trapezoid;perimeter=trapezoidPerimeter;direction=east;size=0.2;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#222222;strokeWidth=2;fontFamily=Arial;fontSize=22;" vertex="1" parent="1">
+          <mxGeometry x="650" y="655" width="160" height="175" as="geometry"/>
+        </mxCell>
+        <mxCell id="slave1" value="Subordinate 1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#222222;strokeWidth=2;fontFamily=Arial;fontSize=26;" vertex="1" parent="1">
+          <mxGeometry x="1310" y="180" width="330" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="slave2" value="Subordinate 2" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#222222;strokeWidth=2;fontFamily=Arial;fontSize=26;" vertex="1" parent="1">
+          <mxGeometry x="1310" y="375" width="330" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="slave3" value="Subordinate 3" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#222222;strokeWidth=2;fontFamily=Arial;fontSize=26;" vertex="1" parent="1">
+          <mxGeometry x="1310" y="570" width="330" height="130" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="mux-label" value="Multiplexor&lt;br&gt;select" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=none;fontFamily=Arial;fontSize=24;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="600" y="465" width="240" height="100" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="hwdata" value="HWDATA[31:0]" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=3;endArrow=none;startArrow=none;fontFamily=Arial;fontSize=24;fontStyle=1;labelBackgroundColor=#ffffff;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="280" y="120" as="sourcePoint"/><mxPoint x="1160" y="120" as="targetPoint"/></mxGeometry>
+        </mxCell>
+        <mxCell id="hwdata-bus" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=3;endArrow=none;startArrow=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="1160" y="120" as="sourcePoint"/><mxPoint x="1160" y="665" as="targetPoint"/></mxGeometry>
+        </mxCell>
+        <mxCell id="haddr-decoder" value="HADDR[31:0]" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=3;endArrow=none;startArrow=none;fontFamily=Arial;fontSize=24;fontStyle=1;labelBackgroundColor=#ffffff;" edge="1" parent="1">
+          <mxGeometry x="-0.45" y="0" relative="1" as="geometry"><mxPoint x="0" y="-14" as="offset"/><mxPoint x="280" y="165" as="sourcePoint"/><mxPoint x="1230" y="165" as="targetPoint"/></mxGeometry>
+        </mxCell>
+        <mxCell id="haddr-to-decoder" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=3;endArrow=block;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="720" y="165" as="sourcePoint"/><mxPoint x="720" y="230" as="targetPoint"/></mxGeometry>
+        </mxCell>
+        <mxCell id="haddr-bus" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=3;endArrow=none;startArrow=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="1230" y="165" as="sourcePoint"/><mxPoint x="1230" y="665" as="targetPoint"/></mxGeometry>
+        </mxCell>
+
+        <mxCell id="haddr-to-s1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=3;endArrow=block;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="1230" y="245" as="sourcePoint"/><mxPoint x="1310" y="245" as="targetPoint"/></mxGeometry>
+        </mxCell>
+        <mxCell id="haddr-to-s2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=3;endArrow=block;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="1230" y="440" as="sourcePoint"/><mxPoint x="1310" y="440" as="targetPoint"/></mxGeometry>
+        </mxCell>
+        <mxCell id="haddr-to-s3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=3;endArrow=block;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="1230" y="635" as="sourcePoint"/><mxPoint x="1310" y="635" as="targetPoint"/></mxGeometry>
+        </mxCell>
+
+        <mxCell id="hwdata-to-s1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=3;endArrow=block;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="1160" y="275" as="sourcePoint"/><mxPoint x="1310" y="275" as="targetPoint"/></mxGeometry>
+        </mxCell>
+        <mxCell id="hwdata-to-s2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=3;endArrow=block;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="1160" y="470" as="sourcePoint"/><mxPoint x="1310" y="470" as="targetPoint"/></mxGeometry>
+        </mxCell>
+        <mxCell id="hwdata-to-s3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=3;endArrow=block;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="1160" y="665" as="sourcePoint"/><mxPoint x="1310" y="665" as="targetPoint"/></mxGeometry>
+        </mxCell>
+
+        <mxCell id="hsel1" value="HSEL_1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#222222;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=23;labelBackgroundColor=#ffffff;exitX=1;exitY=0.167;exitDx=0;exitDy=0;entryX=0;entryY=0.269;entryDx=0;entryDy=0;" edge="1" parent="1" source="decoder" target="slave1">
+          <mxGeometry x="-0.68" y="0" relative="1" as="geometry"><mxPoint x="0" y="-18" as="offset"/><Array as="points"><mxPoint x="930" y="260"/><mxPoint x="930" y="215"/><mxPoint x="1270" y="215"/></Array></mxGeometry>
+        </mxCell>
+        <mxCell id="hsel2" value="HSEL_2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#222222;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=23;labelBackgroundColor=#ffffff;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.269;entryDx=0;entryDy=0;" edge="1" parent="1" source="decoder" target="slave2">
+          <mxGeometry x="-0.72" y="0" relative="1" as="geometry"><mxPoint x="0" y="-18" as="offset"/><Array as="points"><mxPoint x="1000" y="320"/><mxPoint x="1000" y="410"/><mxPoint x="1270" y="410"/></Array></mxGeometry>
+        </mxCell>
+        <mxCell id="hsel3" value="HSEL_3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#222222;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=23;labelBackgroundColor=#ffffff;exitX=1;exitY=0.833;exitDx=0;exitDy=0;entryX=0;entryY=0.269;entryDx=0;entryDy=0;" edge="1" parent="1" source="decoder" target="slave3">
+          <mxGeometry x="-0.76" y="0" relative="1" as="geometry"><mxPoint x="0" y="-18" as="offset"/><Array as="points"><mxPoint x="1070" y="380"/><mxPoint x="1070" y="605"/><mxPoint x="1270" y="605"/></Array></mxGeometry></mxCell>
+
+        <mxCell id="mux-select-top" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=3;endArrow=none;startArrow=none;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="720" y="410" as="sourcePoint"/><mxPoint x="720" y="465" as="targetPoint"/></mxGeometry>
+        </mxCell>
+        <mxCell id="mux-select" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=3;endArrow=block;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="720" y="565" as="sourcePoint"/><mxPoint x="730" y="655" as="targetPoint"/><Array as="points"><mxPoint x="720" y="610"/><mxPoint x="730" y="610"/></Array></mxGeometry>
+        </mxCell>
+
+        <mxCell id="hrdata3" value="HRDATA_3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=3;endArrow=block;endFill=1;fontFamily=Arial;fontSize=24;fontStyle=1;labelBackgroundColor=#ffffff;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.25;entryDx=0;entryDy=0;" edge="1" parent="1" source="slave3" target="mux">
+          <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="1660" y="635"/><mxPoint x="1660" y="735"/><mxPoint x="830" y="735"/></Array></mxGeometry>
+        </mxCell>
+        <mxCell id="hrdata2" value="HRDATA_2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=3;endArrow=block;endFill=1;fontFamily=Arial;fontSize=24;fontStyle=1;labelBackgroundColor=#ffffff;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="slave2" target="mux">
+          <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="1700" y="440"/><mxPoint x="1700" y="770"/><mxPoint x="830" y="770"/></Array></mxGeometry>
+        </mxCell>
+        <mxCell id="hrdata1" value="HRDATA_1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=3;endArrow=block;endFill=1;fontFamily=Arial;fontSize=24;fontStyle=1;labelBackgroundColor=#ffffff;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.75;entryDx=0;entryDy=0;" edge="1" parent="1" source="slave1" target="mux">
+          <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="1740" y="245"/><mxPoint x="1740" y="805"/><mxPoint x="830" y="805"/></Array></mxGeometry>
+        </mxCell>
+        <mxCell id="hrdata-manager" value="HRDATA[31:0]" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#111111;strokeWidth=3;endArrow=block;endFill=1;fontFamily=Arial;fontSize=24;fontStyle=1;labelBackgroundColor=#ffffff;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.9;entryDx=0;entryDy=0;" edge="1" parent="1" source="mux" target="manager">
+          <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="470" y="745"/><mxPoint x="470" y="760"/></Array></mxGeometry>
+        </mxCell>
+
+        <mxCell id="node-haddr-1" value="" style="shape=ellipse;aspect=fixed;fillColor=#111111;strokeColor=#111111;" vertex="1" parent="1"><mxGeometry x="1218" y="233" width="24" height="24" as="geometry"/></mxCell>
+        <mxCell id="node-haddr-2" value="" style="shape=ellipse;aspect=fixed;fillColor=#111111;strokeColor=#111111;" vertex="1" parent="1"><mxGeometry x="1218" y="428" width="24" height="24" as="geometry"/></mxCell>
+        <mxCell id="node-haddr-3" value="" style="shape=ellipse;aspect=fixed;fillColor=#111111;strokeColor=#111111;" vertex="1" parent="1"><mxGeometry x="1218" y="623" width="24" height="24" as="geometry"/></mxCell>
+        <mxCell id="node-haddr-decoder" value="" style="shape=ellipse;aspect=fixed;fillColor=#111111;strokeColor=#111111;" vertex="1" parent="1"><mxGeometry x="708" y="153" width="24" height="24" as="geometry"/></mxCell>
+        <mxCell id="node-hwdata-1" value="" style="shape=ellipse;aspect=fixed;fillColor=#111111;strokeColor=#111111;" vertex="1" parent="1"><mxGeometry x="1148" y="263" width="24" height="24" as="geometry"/></mxCell>
+        <mxCell id="node-hwdata-2" value="" style="shape=ellipse;aspect=fixed;fillColor=#111111;strokeColor=#111111;" vertex="1" parent="1"><mxGeometry x="1148" y="458" width="24" height="24" as="geometry"/></mxCell>
+        <mxCell id="node-hwdata-3" value="" style="shape=ellipse;aspect=fixed;fillColor=#111111;strokeColor=#111111;" vertex="1" parent="1"><mxGeometry x="1148" y="653" width="24" height="24" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

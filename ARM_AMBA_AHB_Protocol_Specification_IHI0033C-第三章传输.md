@@ -13,31 +13,22 @@
 
 ## 目录
 
-- [1. 阅读方式](#1-阅读方式)
-- [2. 基础传输与流水线](#2-基础传输与流水线)
-- [3. HTRANS：四种传输类型](#3-htrans四种传输类型)
-- [4. 锁定传输](#4-锁定传输)
-- [5. 传输大小](#5-传输大小)
-- [6. Burst 操作](#6-burst-操作)
-- [7. 等待期间允许改变什么](#7-等待期间允许改变什么)
-- [8. HPROT 保护控制](#8-hprot-保护控制)
-- [9. 易错点、口诀与自测](#9-易错点口诀与自测)
-- [10. 问题记录与解答](#10-问题记录与解答)
-- [11. 本章边界与资料来源](#11-本章边界与资料来源)
+- 1. 基础传输与流水线
+- 2. HTRANS：四种传输类型
+- 3. 锁定传输
+- 4. 传输大小
+- 5. Burst 操作
+- 6. 等待期间允许改变什么
+- 7. HPROT 保护控制
+- 8. 易错点、口诀与自测
+- 9. 问题记录与解答
+- 10. 本章边界与资料来源
 
-<a id="1-阅读方式"></a>
-<details open>
-<summary><strong>1. 阅读方式</strong></summary>
-
-建议先阅读第 2～7 节掌握基础传输、Burst 与等待规则，再阅读第 8 节了解 `HPROT[3:0]` 保护属性。读完后使用 [9.3 自测题](#chapter3-self-test) 检查是否真正理解；阅读过程中遇到的具体疑问集中记录在 [10. 问题记录与解答](#10-问题记录与解答)。
-
-</details>
-
-<a id="2-基础传输与流水线"></a>
+<a id="1-基础传输与流水线"></a>
 <details>
-<summary><strong>2. 基础传输与流水线</strong></summary>
+<summary><strong>1. 基础传输与流水线</strong></summary>
 
-### 2.1 一笔传输的两个阶段
+### 1.1 一笔传输的两个阶段
 
 一笔 AHB 传输由两个阶段组成（IHI 0033C，3.1 节，第 3-28 页）：
 
@@ -52,7 +43,7 @@
 
 *图 1：原规范 Figure 3-1 和 Figure 3-2，无等待状态的简单读写传输。来源：IHI 0033C，第 3-28 页。Copyright © 2001, 2006, 2010, 2015, 2021 Arm Limited or its affiliates. All rights reserved.*
 
-> **相关问题：** [读等待期间，为什么 `HWRITE` 可以从 0 变成 1？（第 10.2 节）](#question-read-wait-hwrite)
+> **相关问题：** [读等待期间，为什么 `HWRITE` 可以从 0 变成 1？（第 9.2 节）](#question-read-wait-hwrite)
 
 以无等待传输为例：
 
@@ -60,7 +51,7 @@
 2. Subordinate 在下一个上升沿采样地址和控制信息，传输进入数据阶段。
 3. Subordinate 在数据阶段驱动局部 `HREADYOUT`；Interconnect 选择后形成系统级 `HREADY`，Manager 在再下一个上升沿采样完成状态和返回数据。
 
-### 2.2 流水线重叠
+### 1.2 流水线重叠
 
 一笔传输的数据阶段通常与下一笔传输的地址阶段同时出现。因此，同一个周期中的 `HADDR` 与 `HWDATA/HRDATA` 往往属于不同传输：
 
@@ -69,7 +60,7 @@
 
 > <span style="color:#63d297"><strong>一句话记忆：</strong></span> 同周期看到“地址 B、数据 A”是 AHB 流水线的正常状态。
 
-### 2.3 等待状态
+### 1.3 等待状态
 
 Subordinate 需要更多时间时输出 `HREADYOUT=0`，Interconnect 选中该返回值后形成系统侧 `HREADY=0`，从而延长当前数据阶段。
 
@@ -77,7 +68,7 @@ Subordinate 需要更多时间时输出 `HREADYOUT=0`，Interconnect 选中该�
 
 *图 2：原规范 Figure 3-3，读传输包含两个等待状态。读数据只要求在传输即将完成时有效。来源：IHI 0033C，第 3-29 页。Copyright © 2001, 2006, 2010, 2015, 2021 Arm Limited or its affiliates. All rights reserved.*
 
-> **相关问题：** [读等待期间，为什么 `HWRITE` 可以从 0 变成 1？（第 10.2 节）](#question-read-wait-hwrite)
+> **相关问题：** [读等待期间，为什么 `HWRITE` 可以从 0 变成 1？（第 9.2 节）](#question-read-wait-hwrite)
 
 ![Figure 3-4 等待一个周期的写传输](assets/ihi0033c-chapter3/figure-3-4-write-one-wait.png)
 
@@ -96,19 +87,19 @@ Subordinate 需要更多时间时输出 `HREADYOUT=0`，Interconnect 选中该�
 
 > <span style="color:#ffb454"><strong>重要区别：</strong></span> 不是“地址阶段自己请求了等待”，而是前一笔数据阶段的 `HREADY=0` 阻止流水线推进，因而让当前地址和控制继续保持。
 
-### 2.4 等待期间的地址与控制信号
+### 1.4 等待期间的地址与控制信号
 
-AHB 没有独立的地址阶段握手信号。`HREADY=0` 直接延长当前传输的数据阶段，同时阻止流水线推进，使下一笔传输的地址和控制信号被动保持。默认稳定性规则及其例外见第 7 节。
+AHB 没有独立的地址阶段握手信号。`HREADY=0` 直接延长当前传输的数据阶段，同时阻止流水线推进，使下一笔传输的地址和控制信号被动保持。默认稳定性规则及其例外见第 6 节。
 
 需要特别注意：等待中的数据阶段与被保持的下一笔地址阶段属于不同传输，因此下一笔的 `HWRITE` 等控制值可以与当前传输不同。
 
-> **延伸答疑：** [地址阶段能否主动延长？（第 10.1 节）](#question-address-phase-extension)
+> **延伸答疑：** [地址阶段能否主动延长？（第 9.1 节）](#question-address-phase-extension)
 
 </details>
 
-<a id="3-htrans四种传输类型"></a>
+<a id="2-htrans四种传输类型"></a>
 <details>
-<summary><strong>3. HTRANS：四种传输类型</strong></summary>
+<summary><strong>2. HTRANS：四种传输类型</strong></summary>
 
 `HTRANS[1:0]` 把每个地址阶段分成四类（IHI 0033C，3.2 节，第 3-30～3-31 页）：
 
@@ -119,11 +110,11 @@ AHB 没有独立的地址阶段握手信号。`HREADY=0` 直接延长当前传�
 | `0b10` | `NONSEQ` | 是 | 单次传输或 Burst 首拍；地址和控制与上一笔传输无关 |
 | `0b11` | `SEQ` | 是 | Burst 后续拍；控制信息与前一拍相同，地址按 `HSIZE` 递增，回绕 Burst 到边界时回绕 |
 
-> **相关问题：** [`IDLE` 时没有有效传输，为什么 `HREADYOUT` 还必须为 1？（第 10.3 节）](#question-idle-hreadyout)
+> **相关问题：** [`IDLE` 时没有有效传输，为什么 `HREADYOUT` 还必须为 1？（第 9.3 节）](#question-idle-hreadyout)
 
 `HTRANS[1]=1` 可以作为“当前地址阶段是有效传输”的快速判断，但实现仍需结合 `HREADY` 确认该地址阶段是否在本周期结束时真正被接受。
 
-### 3.1 `BUSY` 不是等待响应
+### 2.1 `BUSY` 不是等待响应
 
 `BUSY` 是 **Manager 主动插入的空拍**，表示它暂时不能继续 Burst；`HREADY=0` 是 **Subordinate 侧通过完成握手造成的等待**。二者来源和作用完全不同。
 
@@ -131,14 +122,14 @@ AHB 没有独立的地址阶段握手信号。`HREADY=0` 直接延长当前传�
 
 *图 5：原规范 Figure 3-6。INCR Burst 以 `NONSEQ` 开始，中间插入 `BUSY`，之后以 `SEQ` 继续；后续数据阶段又出现一个 Subordinate 等待状态。来源：IHI 0033C，第 3-31 页。Copyright © 2001, 2006, 2010, 2015, 2021 Arm Limited or its affiliates. All rights reserved.*
 
-> **相关问题：** [`BUSY` 时给出地址 `0x24`，恢复时可以切换地址吗？（第 10.4 节）](#question-busy-resume-address)
+> **相关问题：** [`BUSY` 时给出地址 `0x24`，恢复时可以切换地址吗？（第 9.4 节）](#question-busy-resume-address)
 
 读图时要把两个事件分开：
 
 - T1-T2：Manager 用 `BUSY` 推迟第二拍，第一拍的读数据仍可在同周期返回。
 - T4-T6：Subordinate 拉低 `HREADYOUT`，使地址 `0x2C` 的阶段和前一拍数据阶段一起停住。
 
-### 3.2 Burst 的首拍与后续拍
+### 2.2 Burst 的首拍与后续拍
 
 - 单次传输也视为长度为 1 的 Burst，因此使用 `NONSEQ`。
 - 固定长度或未定义长度 Burst 的第一拍使用 `NONSEQ`。
@@ -147,9 +138,9 @@ AHB 没有独立的地址阶段握手信号。`HREADY=0` 直接延长当前传�
 
 </details>
 
-<a id="4-锁定传输"></a>
+<a id="3-锁定传输"></a>
 <details>
-<summary><strong>4. 锁定传输</strong></summary>
+<summary><strong>3. 锁定传输</strong></summary>
 
 先用一句话理解 `HMASTLOCK`：
 
@@ -185,7 +176,7 @@ Manager B：也写入 1
 
 - 锁定序列中的所有传输必须落在同一个 Subordinate 地址区域；该要求在 Issue A 中不存在，使用旧组件时要额外验证。
 
-> **相关问题：** [单个 Manager、多个 Subordinate 时，`HMASTLOCK` 能防止不同 Subordinate 插队吗？（第 10.5 节）](#question-lock-single-manager-multiple-subordinates)
+> **相关问题：** [单个 Manager、多个 Subordinate 时，`HMASTLOCK` 能防止不同 Subordinate 插队吗？（第 9.5 节）](#question-lock-single-manager-multiple-subordinates)
 
 - 规范建议锁定传输后插入一个 `IDLE`。
 - 锁定序列开始、中间或结束时可以出现锁定的 `IDLE`，但在开始或结束处这样做不推荐，因为可能影响仲裁。
@@ -195,11 +186,11 @@ Manager B：也写入 1
 
 </details>
 
-<a id="5-传输大小"></a>
+<a id="4-传输大小"></a>
 <details>
-<summary><strong>5. 传输大小</strong></summary>
+<summary><strong>4. 传输大小</strong></summary>
 
-### 5.1 `HSIZE` 与对齐
+### 4.1 `HSIZE` 与对齐
 
 `HSIZE[2:0]` 表示每一拍传输的数据大小（IHI 0033C，3.4 节，第 3-33 页）：
 
@@ -228,11 +219,11 @@ bytes_per_beat = 2^HSIZE
 
 </details>
 
-<a id="6-burst-操作"></a>
+<a id="5-burst-操作"></a>
 <details>
-<summary><strong>6. Burst 操作</strong></summary>
+<summary><strong>5. Burst 操作</strong></summary>
 
-### 6.1 `HBURST` 编码
+### 5.1 `HBURST` 编码
 
 AHB 定义单次、未定义长度以及 4/8/16 拍的递增和回绕 Burst（IHI 0033C，3.6 节，第 3-35～3-39 页）：
 
@@ -253,7 +244,7 @@ AHB 定义单次、未定义长度以及 4/8/16 拍的递增和回绕 Burst（IH
 burst_bytes = beats × 2^HSIZE
 ```
 
-### 6.2 递增与回绕地址
+### 5.2 递增与回绕地址
 
 递增 Burst 的下一拍地址为：
 
@@ -284,7 +275,7 @@ wrap_base  = floor(start_address / wrap_bytes) × wrap_bytes
 
 *图 8：原规范 Figure 3-9。Word INCR4 不在 16 字节边界回绕，`0x3C` 的下一拍为 `0x40`。来源：IHI 0033C，第 3-38 页。Copyright © 2001, 2006, 2010, 2015, 2021 Arm Limited or its affiliates. All rights reserved.*
 
-### 6.3 未定义长度 `INCR`
+### 5.3 未定义长度 `INCR`
 
 `INCR` 没有预先声明固定拍数，可以在合法位置结束当前 Burst，再以新的 `NONSEQ` 开始另一笔传输。
 
@@ -306,13 +297,13 @@ NONSEQ    0x400     跨过 1KB 边界，开始第二个 Burst
 SEQ       0x404     第二个 Burst 的后续拍
 ```
 
-### 6.4 `BUSY` 后如何结束 Burst
+### 5.4 `BUSY` 后如何结束 Burst
 
 - `INCR`：可以在 `BUSY` 后改为 `SEQ` 继续，也可以改为 `IDLE` 或 `NONSEQ` 结束当前 Burst。
 - 固定长度 `INCR4/8/16`、`WRAP4/8/16`：不能以 `BUSY` 结束，最后一拍必须是 `SEQ`。
 - `SINGLE`：后面必须是 `IDLE` 或 `NONSEQ`，不能紧接 `BUSY`。
 
-### 6.5 提前终止
+### 5.5 提前终止
 
 Burst 可能因为以下情况提前结束：
 
@@ -321,13 +312,13 @@ Burst 可能因为以下情况提前结束：
 
 </details>
 
-<a id="7-等待期间允许改变什么"></a>
+<a id="6-等待期间允许改变什么"></a>
 <details>
-<summary><strong>7. 等待期间允许改变什么</strong></summary>
+<summary><strong>6. 等待期间允许改变什么</strong></summary>
 
 等待期间的默认规则是：当 `HREADY=0` 时，当前有效地址和控制必须保持。Chapter 3 同时定义了少数例外，不能把“等待时所有信号绝对不变”当成完整规则。（IHI 0033C，3.7 节，第 3-40～3-44 页）
 
-### 7.1 `HTRANS` 变化决策表
+### 6.1 `HTRANS` 变化决策表
 
 | 等待时当前类型 | 允许变化 | 变化后的要求 |
 | --- | --- | --- |
@@ -344,7 +335,7 @@ Burst 可能因为以下情况提前结束：
 
 *图 11：原规范 Figure 3-15。未定义长度 INCR 在 `BUSY` 后改为 `NONSEQ`，结束原 Burst，并准备从 `0x10` 开始新的 INCR4。来源：IHI 0033C，第 3-42 页。Copyright © 2001, 2006, 2010, 2015, 2021 Arm Limited or its affiliates. All rights reserved.*
 
-### 7.2 地址变化规则
+### 6.2 地址变化规则
 
 等待期间，Manager 通常只能为准备中的下一笔传输改变一次地址；有两个重要例外：
 
@@ -353,15 +344,15 @@ Burst 可能因为以下情况提前结束：
 
 > <span style="color:#ffb454"><strong>分析方法：</strong></span> 先找出当前数据阶段是谁，再看同周期地址阶段是有效传输、`IDLE` 还是 `BUSY`。不要只看到 `HREADY=0` 就忽略 `HTRANS` 所定义的例外。
 
-### 7.3 可直接用于验证的检查点
+### 6.3 可直接用于验证的检查点
 
 > <span style="color:#ffb454"><strong>工程推断：</strong></span> 根据 3.7 节，可以把等待期检查拆成“稳定性默认规则 + 三类合法豁免”。断言应先排除 `IDLE→NONSEQ`、固定 Burst `BUSY→SEQ`、INCR `BUSY→任意类型`及 ERROR 第二周期，再检查 `HTRANS/HADDR` 稳定，避免把规范允许的变化误报为错误。
 
 </details>
 
-<a id="8-hprot-保护控制"></a>
+<a id="7-hprot-保护控制"></a>
 <details>
-<summary><strong>8. HPROT 保护控制</strong></summary>
+<summary><strong>7. HPROT 保护控制</strong></summary>
 
 传统 4 位 `HPROT[3:0]` 为访问提供附加属性，主要供实现保护或内存管理功能的组件使用（IHI 0033C，3.8 节，第 3-45 页）：
 
@@ -383,11 +374,11 @@ Issue A 把 `HPROT[3]` 命名为 Cacheable，Issue B 起命名为 Modifiable；�
 
 </details>
 
-<a id="9-易错点口诀与自测"></a>
+<a id="8-易错点口诀与自测"></a>
 <details>
-<summary><strong>9. 易错点、口诀与自测</strong></summary>
+<summary><strong>8. 易错点、口诀与自测</strong></summary>
 
-### 9.1 七个易错点
+### 8.1 七个易错点
 
 1. `HREADY=0` 延长当前数据阶段，并连带保持下一笔地址阶段；不能说地址阶段主动插入等待。
 2. `BUSY` 是 Manager 的空拍，`HREADY=0` 是 Subordinate 侧等待，二者不能互换。
@@ -397,7 +388,7 @@ Issue A 把 `HPROT[3]` 命名为 Cacheable，Issue B 起命名为 Modifiable；�
 6. 等待时信号默认保持，但 `IDLE`、`BUSY` 和 ERROR 响应存在规范明确的变化例外。
 7. `HPROT[3:0]` 是地址阶段的保护属性，并且必须在整个 Burst 中保持不变；不能把它当成数据阶段信号。
 
-### 9.2 记忆口诀
+### 8.2 记忆口诀
 
 > <span style="color:#63d297">首拍 NONSEQ，后拍 SEQ；</span>  
 > <span style="color:#63d297">Manager 忙用 BUSY，无传输用 IDLE；</span>  
@@ -406,7 +397,7 @@ Issue A 把 `HPROT[3]` 命名为 Cacheable，Issue B 起命名为 Modifiable；�
 
 <a id="chapter3-self-test"></a>
 
-### 9.3 自测题
+### 8.3 自测题
 
 <details>
 <summary>1. 同一周期看到地址 B 和数据 A，是否说明信号错位？</summary>
@@ -473,14 +464,14 @@ Issue A 把 `HPROT[3]` 命名为 Cacheable，Issue B 起命名为 Modifiable；�
 
 </details>
 
-<a id="10-问题记录与解答"></a>
+<a id="9-问题记录与解答"></a>
 
-## 10. 问题记录与解答
+## 9. 问题记录与解答
 
 <a id="question-address-phase-extension"></a>
 
 <details>
-<summary><strong>10.1 地址阶段能否主动延长？</strong></summary>
+<summary><strong>9.1 地址阶段能否主动延长？</strong></summary>
 
 AHB 中可以看到地址和控制保持多个周期，但协议没有专门用于延长地址阶段的握手信号。`HREADY` 表示当前数据阶段是否完成，不是独立的地址接收信号。
 
@@ -504,7 +495,7 @@ Manager 还可以先发出 `IDLE`，或者在 Burst 中插入 `BUSY`，稍后再
 <a id="question-read-wait-hwrite"></a>
 
 <details>
-<summary><strong>10.2 读等待期间，为什么 <code>HWRITE</code> 可以从 0 变成 1？</strong></summary>
+<summary><strong>9.2 读等待期间，为什么 <code>HWRITE</code> 可以从 0 变成 1？</strong></summary>
 
 ![读等待期间 HWRITE 从 0 变成 1 的问题截图](assets/ihi0033c-chapter3/question-read-wait-hwrite.png)
 
@@ -536,7 +527,7 @@ Manager 还可以先发出 `IDLE`，或者在 Burst 中插入 `BUSY`，稍后再
 <a id="question-idle-hreadyout"></a>
 
 <details>
-<summary><strong>10.3 <code>IDLE</code> 时没有有效传输，为什么 <code>HREADYOUT</code> 还必须为 1？</strong></summary>
+<summary><strong>9.3 <code>IDLE</code> 时没有有效传输，为什么 <code>HREADYOUT</code> 还必须为 1？</strong></summary>
 
 #### 原始问题与后续追问
 
@@ -609,7 +600,7 @@ Subordinate 必须同时检查地址选择和传输类型：
 <a id="question-busy-resume-address"></a>
 
 <details>
-<summary><strong>10.4 <code>BUSY</code> 时给出地址 <code>0x24</code>，恢复时可以切换地址吗？</strong></summary>
+<summary><strong>9.4 <code>BUSY</code> 时给出地址 <code>0x24</code>，恢复时可以切换地址吗？</strong></summary>
 
 #### 原始问题
 
@@ -669,7 +660,7 @@ NONSEQ  HADDR=0x80   // 结束原 INCR，在 0x80 开始新传输
 <a id="question-lock-single-manager-multiple-subordinates"></a>
 
 <details>
-<summary><strong>10.5 单个 Manager、多个 Subordinate 时，<code>HMASTLOCK</code> 能防止不同 Subordinate 插队吗？</strong></summary>
+<summary><strong>9.5 单个 Manager、多个 Subordinate 时，<code>HMASTLOCK</code> 能防止不同 Subordinate 插队吗？</strong></summary>
 
 ![HMASTLOCK 同一 Subordinate 地址区域问题截图](assets/ihi0033c-chapter3/question-hmastlock-single-manager-multiple-subordinates.png)
 
@@ -730,15 +721,15 @@ Subordinate B：0x1000～0x1FFF
 
 </details>
 
-<a id="11-本章边界与资料来源"></a>
+<a id="10-本章边界与资料来源"></a>
 <details>
-<summary><strong>11. 本章边界与资料来源</strong></summary>
+<summary><strong>10. 本章边界与资料来源</strong></summary>
 
 本章解释 Manager 如何发起不同类型的传输，但不展开以下主题：
 
 - Decoder、Multiplexor、`HREADYOUT` 与系统 `HREADY` 的完整连接：继续阅读 Chapter 4 Bus Interconnection；
 - `OKAY`、两周期 `ERROR` 和响应采样时序：继续阅读[第五章 Subordinate Response Signaling 响应信号精读](ARM_AMBA_AHB_Protocol_Specification_IHI0033C-第五章Subordinate响应信号.md)；
-- 窄传输在不同端序和数据总线宽度上的字节通道映射：继续阅读 Chapter 6 Data Buses；
+- 窄传输在不同端序和数据总线宽度上的字节通道映射：继续阅读[第六章 Data Buses 数据总线精读](ARM_AMBA_AHB_Protocol_Specification_IHI0033C-第六章数据总线.md)；
 - 信号在复位、等待及非活动阶段何时必须有效：继续阅读 Chapter 8 Signal validity。
 
 资料来源：

@@ -1,13 +1,13 @@
 # AMBA AHB Protocol Specification IHI 0033C：第二章信号描述精读
 
-> 原始资料：[ARM_AMBA_AHB_Protocol_Specification_IHI0033C.pdf](ARM_AMBA_AHB_Protocol_Specification_IHI0033C.pdf)  
+> 原始资料：[ARM_AMBA_AHB_Protocol_Specification_IHI0033C.pdf](https://github.com/lja1589767265-coder/AHB/blob/main/ARM_AMBA_AHB_Protocol_Specification_IHI0033C.pdf)  
 > 精读范围：Chapter 2 Signal Descriptions，PDF 第 19-26 页（文档页码 2-19～2-26，其中第 2-26 页为空白页）  
 > 文档版本：Issue C，ID090921，2021 年 9 月 15 日发布  
-> 前置阅读：[第一章 Introduction 精读](ARM_AMBA_AHB_Protocol_Specification_IHI0033C-第一章介绍.md)
+> 前置阅读：[第一章 Introduction 精读](https://github.com/lja1589767265-coder/AHB/blob/main/ARM_AMBA_AHB_Protocol_Specification_IHI0033C-%E7%AC%AC%E4%B8%80%E7%AB%A0%E4%BB%8B%E7%BB%8D.md)
 
 本文面向第一次系统学习 AHB 的读者，统一使用 Issue C 的术语 `Manager（原 Master）`、`Subordinate（原 Slave）`、`Decoder（译码器）` 和 `Multiplexor（多路选择器）`。
 
-本文只整理 AHB-Lite 与 AHB5 共用的核心信号。AHB5 可选信号 `HNONSEC`、`HEXCL`、`HMASTER`、`HEXOKAY` 被有意排除；需要这些特性时，应继续阅读[第三章 Transfers 精读](ARM_AMBA_AHB_Protocol_Specification_IHI0033C-第三章传输.md)、Chapter 10 和 Appendix A。`HWSTRB` 保留在本文中，但它是由 `Write_Strobes` 属性控制的可选信号。
+本文只整理 AHB-Lite 与 AHB5 共用的核心信号。AHB5 可选信号 `HNONSEC`、`HEXCL`、`HMASTER`、`HEXOKAY` 被有意排除；需要这些特性时，应继续阅读[第三章 Transfers 精读](https://github.com/lja1589767265-coder/AHB/blob/main/ARM_AMBA_AHB_Protocol_Specification_IHI0033C-%E7%AC%AC%E4%B8%89%E7%AB%A0%E4%BC%A0%E8%BE%93.md)、Chapter 10 和 Appendix A。`HWSTRB` 保留在本文中，但它是由 `Write_Strobes` 属性控制的可选信号。
 
 > **颜色约定：** <span style="color:#4ea1ff">蓝色</span>表示关键协议名和信号，<span style="color:#ffb454">橙色</span>表示限制和易错条件，<span style="color:#63d297">绿色</span>表示正确方向和结论。
 >
@@ -40,7 +40,7 @@
 <details open>
 <summary><strong>2. 原始信号表</strong></summary>
 
-![Table 2-1～Table 2-5 通用 AHB 信号原始表格](assets/ihi0033c-chapter2/figure-2-1-signal-description-tables.png)
+![Table 2-1～Table 2-5 通用 AHB 信号原始表格](../image/ahb-chapter2-signal-descriptions/body-1.png)
 
 *图 1：原规范 Table 2-1～Table 2-5 中本文范围内的通用 AHB 信号行。AHB5 可选信号行被有意省略，表头和与所选信号有关的脚注均保留。来源：IHI 0033C，第 2-20～2-25 页。Copyright © 2001, 2006, 2010, 2015, 2021 Arm Limited or its affiliates. All rights reserved.*
 
@@ -52,7 +52,7 @@
 <details>
 <summary><strong>3. 通用信号速查</strong></summary>
 
-![通用 AHB 核心信号连接示意图](assets/ihi0033c-chapter2/figure-2-2-complete-ahb-signal-map.png)
+![通用 AHB 核心信号连接示意图](../image/ahb-chapter2-signal-descriptions/cover.png)
 
 *图 2：通用 AHB 核心信号连接示意图。`HREADY` 由 Multiplexor 送给 Manager 和所有 Subordinate。图中采用 `ADDR_WIDTH=32`、`DATA_WIDTH=32`、`HPROT_WIDTH=4`、`HBURST_WIDTH=3` 的示例配置，不代表所有接口固定使用这些位宽；图中不包含本文明确排除的 AHB5 可选信号。*
 
@@ -213,7 +213,7 @@ Multiplexor 选择出的系统级 `HREADY` 还要连接到 Manager 和所有 Sub
 - `HREADYOUT`：目标 Subordinate 的局部完成输出，只送往 Multiplexor。
 - `HREADY`：Multiplexor 选择后的系统级完成指示，送给 Manager 和所有 Subordinate。
 
-`HREADY` 说明当前数据阶段能否完成；从同周期地址阶段观察，它说明前一笔传输是否已经完成。详见：[为什么 Subordinate 也接收 HREADY](为什么Subordinate也接收HREADY.md)。
+`HREADY` 说明当前数据阶段能否完成；从同周期地址阶段观察，它说明前一笔传输是否已经完成。详见：[为什么 Subordinate 也接收 HREADY](https://github.com/lja1589767265-coder/AHB/blob/main/%E4%B8%BA%E4%BB%80%E4%B9%88Subordinate%E4%B9%9F%E6%8E%A5%E6%94%B6HREADY.md)。
 
 ### 5.2 `HRESP` 与 `HREADY`
 
@@ -273,9 +273,9 @@ Subordinate 输出的 `HRDATA`、`HRESP` 是局部返回；Multiplexor 输出的
 
 本章只建立通用信号地图，不展开编码和完整时序。下一步阅读：
 
-- [Chapter 3 Transfers 精读](ARM_AMBA_AHB_Protocol_Specification_IHI0033C-第三章传输.md)：`HTRANS`、`HBURST`、`HSIZE`、写选通和基本传输时序；
+- [Chapter 3 Transfers 精读](https://github.com/lja1589767265-coder/AHB/blob/main/ARM_AMBA_AHB_Protocol_Specification_IHI0033C-%E7%AC%AC%E4%B8%89%E7%AB%A0%E4%BC%A0%E8%BE%93.md)：`HTRANS`、`HBURST`、`HSIZE`、写选通和基本传输时序；
 - Chapter 4：Decoder、Multiplexor、`HREADYOUT` 与 `HREADY` 的连接；
-- [第五章 Subordinate Response Signaling 响应信号精读](ARM_AMBA_AHB_Protocol_Specification_IHI0033C-第五章Subordinate响应信号.md)：`OKAY`、`ERROR` 及错误响应时序；
+- [第五章 Subordinate Response Signaling 响应信号精读](https://github.com/lja1589767265-coder/AHB/blob/main/ARM_AMBA_AHB_Protocol_Specification_IHI0033C-%E7%AC%AC%E4%BA%94%E7%AB%A0Subordinate%E5%93%8D%E5%BA%94%E4%BF%A1%E5%8F%B7.md)：`OKAY`、`ERROR` 及错误响应时序；
 - Chapter 10 和 Appendix A：本文刻意排除的 AHB5 可选信号与完整接口属性。
 
 </details>
@@ -284,7 +284,7 @@ Subordinate 输出的 `HRDATA`、`HRESP` 是局部返回；Multiplexor 输出的
 <details>
 <summary><strong>7. 资料来源</strong></summary>
 
-- [AMBA AHB Protocol Specification, Arm IHI 0033C](ARM_AMBA_AHB_Protocol_Specification_IHI0033C.pdf)，Issue C，ID090921，2021 年 9 月 15 日；本文精读 Chapter 2，PDF 第 19-26 页（文档页码 2-19～2-26）。
+- [AMBA AHB Protocol Specification, Arm IHI 0033C](https://github.com/lja1589767265-coder/AHB/blob/main/ARM_AMBA_AHB_Protocol_Specification_IHI0033C.pdf)，Issue C，ID090921，2021 年 9 月 15 日；本文精读 Chapter 2，PDF 第 19-26 页（文档页码 2-19～2-26）。
 - 阶段关系与等待行为补充参考同一规范 Chapter 3；Decoder 和 Multiplexor 的连接补充参考 Chapter 4。
 
 </details>
@@ -292,3 +292,4 @@ Subordinate 输出的 `HRDATA`、`HRESP` 是局部返回；Multiplexor 输出的
 ---
 
 本文是对 Arm IHI 0033C 第二章中通用 AHB 信号的中文学习整理，不替代官方规范。实现或验证 AHB 兼容设计时，应以原始 PDF 的规范性描述为准。
+

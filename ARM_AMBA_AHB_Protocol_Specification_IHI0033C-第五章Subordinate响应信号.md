@@ -13,38 +13,19 @@
 
 ## 目录
 
-- [1. 阅读方式](#1-阅读方式)
-- [2. 响应的两个维度：结果与完成状态](#2-响应的两个维度结果与完成状态)
-- [3. 成功完成与普通等待](#3-成功完成与普通等待)
-- [4. 两周期 ERROR 响应](#4-两周期-error-响应)
-- [5. Figure 5-1 逐拍解析](#5-figure-5-1-逐拍解析)
-- [6. ERROR 之后的 Burst 与读数据](#6-error-之后的-burst-与读数据)
-- [7. 实现与验证检查点](#7-实现与验证检查点)
-- [8. 易错点、口诀与自测](#8-易错点口诀与自测)
-- [9. 问题记录与解答](#9-问题记录与解答)
-- [10. 本章边界与资料来源](#10-本章边界与资料来源)
+- 1. 响应的两个维度：结果与完成状态
+- 2. 成功完成与普通等待
+- 3. 两周期 ERROR 响应
+- 4. Figure 5-1 逐拍解析
+- 5. ERROR 之后的 Burst 与读数据
+- 6. 实现与验证检查点
+- 7. 易错点、口诀与自测
+- 8. 问题记录与解答
+- 9. 本章边界与资料来源
 
-<a id="1-阅读方式"></a>
-<details open>
-<summary><strong>1. 阅读方式</strong></summary>
-
-建议按以下顺序阅读：
-
-1. 先读第 2 节，建立“传输结果 + 完成状态”的二维响应模型。
-2. 再读第 3 节，区分立即成功和等待后成功。
-3. 第 4～5 节是本章核心：先掌握两周期 `ERROR` 的固定序列，再结合 Figure 5-1 对齐地址阶段和数据阶段。
-4. 第 6 节说明错误之后 Manager 可以做什么，以及读错误时 `HRDATA` 应如何处理。
-5. 最后使用 [8.3 自测题](#chapter5-self-test) 检查理解；阅读过程中产生的新问题将集中记录在 [9. 问题记录与解答](#9-问题记录与解答)。
-
-如果只想先记住一条主线，可以从下面这句话开始：
-
-> <span style="color:#63d297"><strong>`HRESP` 说明结果，`HREADYOUT/HREADY` 说明是否完成；两者必须一起判断。</strong></span>
-
-</details>
-
-<a id="2-响应的两个维度结果与完成状态"></a>
+<a id="1-响应的两个维度结果与完成状态"></a>
 <details>
-<summary><strong>2. 响应的两个维度：结果与完成状态</strong></summary>
+<summary><strong>1. 响应的两个维度：结果与完成状态</strong></summary>
 
 Subordinate 被访问时，必须返回当前传输的状态。完整响应由两个维度共同组成（IHI 0033C，5.1 节，第 5-60 页）：
 
@@ -53,7 +34,7 @@ Subordinate 被访问时，必须返回当前传输的状态。完整响应由�
 
 因此，不能脱离完成状态单独解释 `HRESP`，也不能脱离传输结果单独解释 `HREADYOUT`。在系统级接口上，Interconnect 会把目标 Subordinate 的局部返回选择为 Manager 看到的 `HRESP` 和 `HREADY`。
 
-### 2.1 `HRESP` 只说明结果类型
+### 1.1 `HRESP` 只说明结果类型
 
 Issue C 中 `HRESP` 是 1 bit 信号，只有两种编码：
 
@@ -66,7 +47,7 @@ Issue C 中 `HRESP` 是 1 bit 信号，只有两种编码：
 
 > **版本边界：** IHI 0033C Issue C 描述 AHB-Lite 与 AHB5，`HRESP` 为 1 bit，仅编码 `OKAY` 和 `ERROR`。旧版完整 AHB 中的 `RETRY`、`SPLIT` 及 2 bit 响应不能混入本文的状态表。
 
-### 2.2 `HREADYOUT` 说明局部传输是否完成
+### 1.2 `HREADYOUT` 说明局部传输是否完成
 
 从目标 Subordinate 的本地接口观察：
 
@@ -82,7 +63,7 @@ Issue C 中 `HRESP` 是 1 bit 信号，只有两种编码：
 
 这是对原规范 Table 5-2 的中文整理。四个格子都具有明确含义，不能只把 `HREADYOUT` 当作“成功位”，也不能只把 `HRESP` 当作“完成位”。
 
-### 2.3 同一组响应，接口两侧的信号名不同
+### 1.3 同一组响应，接口两侧的信号名不同
 
 Chapter 5 的响应表从 Subordinate 本地输出出发，所以使用 `HREADYOUT`。在包含多个 Subordinate 的系统中，Interconnect 选择当前数据阶段对应的返回信号，Manager 看到的完成信号就叫 `HREADY`。
 
@@ -106,11 +87,11 @@ Chapter 5 的响应表从 Subordinate 本地输出出发，所以使用 `HREADYO
 
 </details>
 
-<a id="3-成功完成与普通等待"></a>
+<a id="2-成功完成与普通等待"></a>
 <details>
-<summary><strong>3. 成功完成与普通等待</strong></summary>
+<summary><strong>2. 成功完成与普通等待</strong></summary>
 
-### 3.1 立即成功完成
+### 2.1 立即成功完成
 
 Subordinate 如果能够立即完成请求，就在当前数据阶段给出：
 
@@ -121,7 +102,7 @@ HRESP=0       // OKAY
 
 这表示零等待成功。经过 Interconnect 选择后，Manager 看到 `HREADY=1, HRESP=0`，在该边沿结束当前传输。
 
-### 3.2 先等待，再成功完成
+### 2.2 先等待，再成功完成
 
 如果 Subordinate 已经接受一笔传输，但还不能在当前周期完成，就先把 `HREADYOUT` 置为 `0`，让数据阶段继续等待。<span style="color:#ffb454"><strong>这里的 `HRESP=0` 只表示“没有报告错误”，不表示传输已经成功。</strong></span>
 
@@ -140,13 +121,13 @@ HRESP=0       // OKAY
 第 3 个周期：HREADYOUT=1, HRESP=0  // 成功完成
 ```
 
-如果不需要等待，就直接进入最后一行，也就是第 3.1 节所说的零等待成功。
+如果不需要等待，就直接进入最后一行，也就是第 2.1 节所说的零等待成功。
 
 > <span style="color:#63d297"><strong>记住：成功路径中 `HRESP` 始终为 `0`；真正区分“等待”和“完成”的是 `HREADYOUT` 从 `0` 变为 `1` 的那个周期。</strong></span>
 
-如果 Subordinate 最终判定传输失败，就不再沿用这条成功路径，而要进入第 4 节的两周期 `ERROR` 响应。
+如果 Subordinate 最终判定传输失败，就不再沿用这条成功路径，而要进入第 3 节的两周期 `ERROR` 响应。
 
-### 3.3 等待会阻塞整个接口
+### 2.3 等待会阻塞整个接口
 
 规范注记指出，通常每个 Subordinate 都应预先确定自己最多插入多少个等待周期，以便系统计算最坏访问延迟（IHI 0033C，第 5-61 页）。
 
@@ -156,13 +137,13 @@ AHB 的等待会停住当前数据阶段，并连带阻止流水线中的下一�
 
 </details>
 
-<a id="4-两周期-error-响应"></a>
+<a id="3-两周期-error-响应"></a>
 <details>
-<summary><strong>4. 两周期 <code>ERROR</code> 响应</strong></summary>
+<summary><strong>3. 两周期 <code>ERROR</code> 响应</strong></summary>
 
 Subordinate 发现当前传输出错时（例如向只读地址写入），必须返回两周期 `ERROR` 响应，而不能在一个周期内结束。下面先看两周期的信号组合，再解释它为什么需要两拍。
 
-### 4.1 `ERROR` 必须占用两个周期
+### 3.1 `ERROR` 必须占用两个周期
 
 与单周期即可完成的 `OKAY` 不同，`ERROR` 必须按以下两拍输出：
 
@@ -179,7 +160,7 @@ Subordinate 发现当前传输出错时（例如向只读地址写入），必�
 
 <span style="color:#ffb454"><strong>不能用孤立的 `(1,1)` 在一个周期内立即结束错误传输</strong></span>，也不能把 `(1,0)` 当作可以任意重复的普通等待状态。
 
-### 4.2 错误前可以有额外等待
+### 3.2 错误前可以有额外等待
 
 如果 Subordinate 需要更多时间才能决定是否报错，可以先插入普通等待周期。此时必须保持 `HRESP=0`，直到正式进入两周期 `ERROR`：
 
@@ -189,7 +170,7 @@ Subordinate 发现当前传输出错时（例如向只读地址写入），必�
 
 也就是说，增加错误判定延迟的方法是把 `(0,0)` 放在错误序列之前，而不是延长或重复 `ERROR` 本身的两个周期。
 
-### 4.3 为什么必须给 Manager 两个周期
+### 3.3 为什么必须给 Manager 两个周期
 
 AHB 的地址阶段和数据阶段流水线重叠。Subordinate 开始返回当前传输 A 的 `ERROR` 时，下一笔传输 B 的地址通常已经广播到总线上。
 
@@ -203,9 +184,9 @@ AHB 的地址阶段和数据阶段流水线重叠。Subordinate 开始返回当�
 
 </details>
 
-<a id="5-figure-5-1-逐拍解析"></a>
+<a id="4-figure-5-1-逐拍解析"></a>
 <details>
-<summary><strong>5. Figure 5-1 逐拍解析</strong></summary>
+<summary><strong>4. Figure 5-1 逐拍解析</strong></summary>
 
 ![Figure 5-1 展示带一个前置等待周期的两周期 ERROR 响应](assets/ihi0033c-chapter5/figure-5-1-error-response.png)
 
@@ -221,7 +202,7 @@ AHB 的地址阶段和数据阶段流水线重叠。Subordinate 开始返回当�
 | T3～T4 | `1` | `ERROR` | A 的 `ERROR` 第二个周期并错误完成 | Manager 将 `HTRANS` 改为 `IDLE`，取消原本指向 B 的访问意图 |
 | T4～T5 | `1` | `OKAY` | 不再有 B 的有效数据传输 | Subordinate 对 `IDLE` 给出零等待 `OKAY` |
 
-### 5.1 图中的三个响应阶段
+### 4.1 图中的三个响应阶段
 
 把 T1～T4 的组合单独列出，可以直接看到完整错误序列：
 
@@ -233,7 +214,7 @@ T3-T4  (HRESP,HREADY) = (1,1)  // ERROR 第二个周期，错误完成
 
 Figure 5-1 使用的是 Manager 可见的系统级 `HREADY`。若在目标 Subordinate 本地接口检查同一响应，应观察它输出的 `HREADYOUT`，并由 Interconnect 将该局部返回选择到系统端。
 
-### 5.2 为什么地址 B 与 `Data(A)` 会同时出现
+### 4.2 为什么地址 B 与 `Data(A)` 会同时出现
 
 A 是写传输，A 的数据阶段从 T1 开始。Figure 5-1 在 T1～T3 标出的写数据仍是 `Data(A)`，而地址线上已经显示下一笔访问意图 B。这是地址阶段和数据阶段的正常流水线重叠，不表示 `Data(A)` 已经变成 B 的写数据。
 
@@ -241,11 +222,11 @@ A 是写传输，A 的数据阶段从 T1 开始。Figure 5-1 在 T1～T3 标出�
 
 </details>
 
-<a id="6-error-之后的-burst-与读数据"></a>
+<a id="5-error-之后的-burst-与读数据"></a>
 <details>
-<summary><strong>6. <code>ERROR</code> 之后的 Burst 与读数据</strong></summary>
+<summary><strong>5. <code>ERROR</code> 之后的 Burst 与读数据</strong></summary>
 
-### 6.1 Manager 可以取消剩余 Burst，也可以继续
+### 5.1 Manager 可以取消剩余 Burst，也可以继续
 
 Manager 收到一笔传输的 `ERROR` 后，可以取消当前 Burst 的剩余传输，但规范不强制取消；继续发送剩余传输同样合法。
 
@@ -259,7 +240,7 @@ Manager 收到一笔传输的 `ERROR` 后，可以取消当前 Burst 的剩余�
 
 因此，不能把“Manager 可以取消剩余 Burst”误解成“Manager 可以撤回已经被接受的当前传输”。
 
-### 6.2 读错误时的 `HRDATA`
+### 5.2 读错误时的 `HRDATA`
 
 Manager 收到读传输的 `ERROR` 后，仍可能读取甚至使用同周期的 `HRDATA`。Subordinate 不能依靠 `ERROR` 响应来阻止 Manager 获取某个数值。
 
@@ -269,11 +250,11 @@ Manager 收到读传输的 `ERROR` 后，仍可能读取甚至使用同周期的
 
 </details>
 
-<a id="7-实现与验证检查点"></a>
+<a id="6-实现与验证检查点"></a>
 <details>
-<summary><strong>7. 实现与验证检查点</strong></summary>
+<summary><strong>6. 实现与验证检查点</strong></summary>
 
-### 7.1 Subordinate 实现检查点
+### 6.1 Subordinate 实现检查点
 
 1. 对每笔已接受的有效传输，最终必须给出成功或错误完成，不能永久停留在等待状态。
 2. 普通等待周期输出 `(HRESP,HREADYOUT)=(0,0)`。
@@ -282,14 +263,14 @@ Manager 收到读传输的 `ERROR` 后，仍可能读取甚至使用同周期的
 5. 为可变延迟操作定义预期的最大等待周期，便于计算系统最坏延迟并设置验证超时。
 6. 读错误时为 `HRDATA` 提供确定值；若采用零值，应把它作为接口策略记录下来。
 
-### 7.2 Manager 实现检查点
+### 6.2 Manager 实现检查点
 
 1. `HREADY=0` 时不能把 `HRESP=0` 当作传输已经成功。
 2. 只有在 `HREADY=1` 的完成边沿，才根据 `HRESP` 判断当前传输成功还是失败。
 3. 看到第一个 `ERROR` 周期后，可以把下一笔访问的 `HTRANS` 改为 `IDLE`，但必须让当前传输走完第二个 `ERROR` 周期。
 4. 对 Burst 明确定义错误策略：取消剩余拍或继续剩余拍，两者都必须符合 Chapter 3 的传输类型规则。
 
-### 7.3 断言与覆盖建议
+### 6.3 断言与覆盖建议
 
 验证时可以分别覆盖两条核心序列：
 
@@ -311,11 +292,11 @@ Manager 收到读传输的 `ERROR` 后，仍可能读取甚至使用同周期的
 
 </details>
 
-<a id="8-易错点口诀与自测"></a>
+<a id="7-易错点口诀与自测"></a>
 <details>
-<summary><strong>8. 易错点、口诀与自测</strong></summary>
+<summary><strong>7. 易错点、口诀与自测</strong></summary>
 
-### 8.1 易错点
+### 7.1 易错点
 
 1. **把 `HRESP=0` 直接当作成功。** 普通等待期间同样必须输出 `HRESP=0`，还要检查完成状态。
 2. **把 `HREADY=1` 直接当作成功。** `HREADY=1, HRESP=1` 表示错误完成。
@@ -327,13 +308,13 @@ Manager 收到读传输的 `ERROR` 后，仍可能读取甚至使用同周期的
 8. **混淆 `HREADYOUT` 与 `HREADY`。** 前者是 Subordinate 局部输出，后者是系统级完成状态。
 9. **把 `RETRY/SPLIT` 加入本章响应表。** 它们不属于 IHI 0033C Issue C 的 1 bit `HRESP`。
 
-### 8.2 记忆口诀
+### 7.2 记忆口诀
 
 > <span style="color:#63d297"><strong>结果看 RESP，完成看 READY；普通等用零零，报错必须一零接一一。</strong></span>
 
 <a id="chapter5-self-test"></a>
 
-### 8.3 自测题
+### 7.3 自测题
 
 <details>
 <summary>1. 只看到 <code>HRESP=0</code>，能否断定传输已经成功完成？</summary>
@@ -400,23 +381,23 @@ Manager 收到读传输的 `ERROR` 后，仍可能读取甚至使用同周期的
 
 </details>
 
-<a id="9-问题记录与解答"></a>
+<a id="8-问题记录与解答"></a>
 
-## 9. 问题记录与解答
+## 8. 问题记录与解答
 
 当前暂无来自本章实际阅读过程的问题记录。
 
 后续如在阅读响应组合、Figure 5-1 或错误后的 Burst 行为时产生具体问题，应在实际引发问题的位置添加入口，并在本节为每个问题建立独立锚点和折叠答案。
 
-<a id="10-本章边界与资料来源"></a>
+<a id="9-本章边界与资料来源"></a>
 <details>
-<summary><strong>10. 本章边界与资料来源</strong></summary>
+<summary><strong>9. 本章边界与资料来源</strong></summary>
 
 本章只解释 Subordinate 的通用传输响应，不展开以下主题：
 
 - `HRESP`、`HREADYOUT`、`HREADY` 的接口方向和 Interconnect 选择关系：参见[第二章信号描述精读](ARM_AMBA_AHB_Protocol_Specification_IHI0033C-第二章信号描述.md)和[第四章总线互连精读](ARM_AMBA_AHB_Protocol_Specification_IHI0033C-第四章总线互连.md)；
 - 地址阶段、数据阶段、等待期间信号保持和 Burst 传输类型规则：参见[第三章 Transfers 基础内容精读](ARM_AMBA_AHB_Protocol_Specification_IHI0033C-第三章传输.md)；
-- `HWDATA`、`HRDATA`、不同数据总线宽度和端序：继续阅读 Chapter 6 Data Buses；
+- `HWDATA`、`HRDATA`、不同数据总线宽度和端序：继续阅读[第六章 Data Buses 数据总线精读](ARM_AMBA_AHB_Protocol_Specification_IHI0033C-第六章数据总线.md)；
 - 复位及不同传输状态下的完整信号有效性要求：继续阅读 Chapter 8 Signal Validity；
 - AHB5 Exclusive Transfers 的附加响应 `HEXOKAY`：继续阅读 Chapter 10 Exclusive Transfers；
 - 具体错误来源、超时数值、Burst 错误恢复策略和安全数据清零策略：由组件或系统规格定义。
