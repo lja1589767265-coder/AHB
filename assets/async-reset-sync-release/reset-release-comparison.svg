@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="980" viewBox="0 0 1500 980" role="img" aria-labelledby="title desc">
+  <title id="title">异步复位直接释放与同步释放对比图</title>
+  <desc id="desc">左侧表示原始异步复位直接连接多个寄存器时，释放沿靠近时钟上升沿可能造成恢复和移除时间违例。右侧表示每个时钟域使用复位同步器，复位立即断言而通过寄存器链同步释放。</desc>
+  <defs>
+    <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#d94b4b"/>
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#199c62"/>
+    </marker>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#287be0"/>
+    </marker>
+    <pattern id="hatch" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="10" height="10" fill="#ffe7e7"/>
+      <line x1="0" y1="0" x2="0" y2="10" stroke="#d94b4b" stroke-width="4"/>
+    </pattern>
+    <style>
+      .title { font: 700 34px Arial, 'Microsoft YaHei', sans-serif; fill: #172033; }
+      .subtitle { font: 700 25px Arial, 'Microsoft YaHei', sans-serif; fill: #172033; }
+      .body { font: 18px Arial, 'Microsoft YaHei', sans-serif; fill: #3d495d; }
+      .small { font: 16px Arial, 'Microsoft YaHei', sans-serif; fill: #566176; }
+      .mono { font: 600 17px Consolas, 'Microsoft YaHei', monospace; fill: #26364f; }
+      .clock { fill: none; stroke: #26364f; stroke-width: 4; stroke-linejoin: round; }
+      .reset { fill: none; stroke: #287be0; stroke-width: 5; stroke-linejoin: round; }
+      .local { fill: none; stroke: #199c62; stroke-width: 5; stroke-linejoin: round; }
+      .guide { stroke: #a3adbb; stroke-width: 2; stroke-dasharray: 7 8; }
+    </style>
+  </defs>
+
+  <rect width="1500" height="980" rx="22" fill="#ffffff"/>
+  <rect x="28" y="28" width="1444" height="924" rx="18" fill="#f8fafc" stroke="#d8dfe9" stroke-width="2"/>
+  <text x="65" y="82" class="title">为什么复位要异步断言、同步释放</text>
+  <text x="65" y="116" class="small">断言目标：无时钟也立即进入安全状态；释放目标：相对于本地时钟整齐恢复，避免 recovery/removal 违例。</text>
+
+  <rect x="60" y="150" width="665" height="350" rx="16" fill="#fff8f8" stroke="#e5aaaa" stroke-width="2"/>
+  <text x="88" y="192" class="subtitle" fill="#b83232">A. 原始复位直接异步释放：有风险</text>
+  <rect x="92" y="238" width="168" height="72" rx="10" fill="#ffffff" stroke="#d94b4b" stroke-width="3"/>
+  <text x="116" y="270" class="mono">raw_reset_n</text>
+  <text x="113" y="294" class="small">异步外部输入</text>
+  <line x1="260" y1="274" x2="365" y2="274" stroke="#d94b4b" stroke-width="4" marker-end="url(#arrow-red)"/>
+  <line x1="330" y1="274" x2="330" y2="422" stroke="#d94b4b" stroke-width="3"/>
+
+  <rect x="385" y="220" width="135" height="64" rx="8" fill="#ffffff" stroke="#67758a" stroke-width="2"/>
+  <rect x="385" y="310" width="135" height="64" rx="8" fill="#ffffff" stroke="#67758a" stroke-width="2"/>
+  <rect x="385" y="400" width="135" height="64" rx="8" fill="#ffffff" stroke="#67758a" stroke-width="2"/>
+  <text x="424" y="260" class="mono">FF A</text>
+  <text x="424" y="350" class="mono">FF B</text>
+  <text x="424" y="440" class="mono">FF C</text>
+  <line x1="330" y1="252" x2="385" y2="252" stroke="#d94b4b" stroke-width="3" marker-end="url(#arrow-red)"/>
+  <line x1="330" y1="342" x2="385" y2="342" stroke="#d94b4b" stroke-width="3" marker-end="url(#arrow-red)"/>
+  <line x1="330" y1="432" x2="385" y2="432" stroke="#d94b4b" stroke-width="3" marker-end="url(#arrow-red)"/>
+
+  <rect x="557" y="220" width="132" height="64" rx="8" fill="#fff0f0" stroke="#d94b4b" stroke-width="2"/>
+  <rect x="557" y="310" width="132" height="64" rx="8" fill="#fff0f0" stroke="#d94b4b" stroke-width="2"/>
+  <rect x="557" y="400" width="132" height="64" rx="8" fill="url(#hatch)" stroke="#d94b4b" stroke-width="2"/>
+  <text x="574" y="259" class="body">已经启动</text>
+  <text x="574" y="349" class="body">仍在复位</text>
+  <text x="575" y="439" class="body">可能亚稳</text>
+  <line x1="520" y1="252" x2="557" y2="252" stroke="#d94b4b" stroke-width="3" marker-end="url(#arrow-red)"/>
+  <line x1="520" y1="342" x2="557" y2="342" stroke="#d94b4b" stroke-width="3" marker-end="url(#arrow-red)"/>
+  <line x1="520" y1="432" x2="557" y2="432" stroke="#d94b4b" stroke-width="3" marker-end="url(#arrow-red)"/>
+  <text x="88" y="486" class="small" fill="#b83232">释放沿靠近 HCLK 上升沿时，不同寄存器可能对同一个时钟沿作出不同响应。</text>
+
+  <rect x="775" y="150" width="665" height="350" rx="16" fill="#f5fcf8" stroke="#8bc6a7" stroke-width="2"/>
+  <text x="803" y="192" class="subtitle" fill="#14794d">B. 每个时钟域使用复位同步器：受控</text>
+  <rect x="807" y="238" width="168" height="72" rx="10" fill="#ffffff" stroke="#287be0" stroke-width="3"/>
+  <text x="831" y="270" class="mono">raw_reset_n</text>
+  <text x="828" y="294" class="small">异步外部输入</text>
+  <line x1="975" y1="274" x2="1030" y2="274" stroke="#287be0" stroke-width="4" marker-end="url(#arrow-blue)"/>
+  <rect x="1045" y="214" width="205" height="120" rx="12" fill="#ffffff" stroke="#287be0" stroke-width="3"/>
+  <text x="1080" y="250" class="body">复位同步器</text>
+  <text x="1072" y="280" class="mono">FF1 → FF2 → …</text>
+  <text x="1071" y="309" class="small">本时钟域 HCLK</text>
+  <line x1="1250" y1="274" x2="1322" y2="274" stroke="#199c62" stroke-width="4" marker-end="url(#arrow-green)"/>
+  <text x="1271" y="247" class="mono">rst_n</text>
+
+  <rect x="1080" y="374" width="300" height="80" rx="10" fill="#ffffff" stroke="#199c62" stroke-width="2"/>
+  <text x="1110" y="407" class="body">本地逻辑 FF A / B / C</text>
+  <text x="1110" y="436" class="small">从同一受控边沿恢复工作</text>
+  <line x1="1338" y1="286" x2="1338" y2="374" stroke="#199c62" stroke-width="3" marker-end="url(#arrow-green)"/>
+  <path d="M888 322 V390 H1028" fill="none" stroke="#287be0" stroke-width="3" marker-end="url(#arrow-blue)"/>
+  <text x="803" y="349" class="small" fill="#287be0">拉低时立即清零同步链</text>
+  <text x="803" y="486" class="small" fill="#14794d">拉低立即生效；拉高必须经过本地 HCLK 的寄存器链传播。</text>
+
+  <line x1="65" y1="535" x2="1435" y2="535" stroke="#d5dce7" stroke-width="2"/>
+  <text x="65" y="582" class="subtitle">C. 同步释放的时序过程</text>
+  <text x="65" y="646" class="mono">HCLK</text>
+  <path class="clock" d="M230 662 H320 V612 H410 V662 H500 V612 H590 V662 H680 V612 H770 V662 H860 V612 H950 V662 H1040 V612 H1130 V662 H1220 V612 H1310 V662 H1415"/>
+  <line x1="320" y1="598" x2="320" y2="880" class="guide"/>
+  <line x1="500" y1="598" x2="500" y2="880" class="guide"/>
+  <line x1="680" y1="598" x2="680" y2="880" class="guide"/>
+  <line x1="860" y1="598" x2="860" y2="880" class="guide"/>
+  <line x1="1040" y1="598" x2="1040" y2="880" class="guide"/>
+  <line x1="1220" y1="598" x2="1220" y2="880" class="guide"/>
+
+  <text x="65" y="727" class="mono">raw_reset_n</text>
+  <path class="reset" d="M230 692 H430 V752 H835 V692 H1415"/>
+  <rect x="820" y="598" width="80" height="168" rx="8" fill="#ffe5e5" opacity="0.72"/>
+  <text x="724" y="785" class="small" fill="#b83232">原始释放沿落入危险窗口</text>
+  <path d="M820 790 L842 754" fill="none" stroke="#d94b4b" stroke-width="3" marker-end="url(#arrow-red)"/>
+
+  <text x="65" y="846" class="mono">local_rst_n</text>
+  <path class="local" d="M230 812 H1220 V752 H1415"/>
+  <path d="M1220 886 V826" fill="none" stroke="#199c62" stroke-width="3" marker-end="url(#arrow-green)"/>
+  <text x="1052" y="911" class="body" fill="#14794d">经过同步链，在 HCLK 上升沿后释放</text>
+  <text x="65" y="947" class="small">图中按“两级同步器 + 危险边沿未可靠采到”的保守情况绘制；两拍不是 AHB 固定要求，各时钟域须分别同步。</text>
+</svg>

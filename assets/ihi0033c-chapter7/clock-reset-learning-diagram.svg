@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="760" viewBox="0 0 1400 760" role="img" aria-labelledby="title desc">
+  <title id="title">AHB 时钟采样与复位时序学习示意图</title>
+  <desc id="desc">上半部分表示输入在 HCLK 上升沿采样、输出在上升沿后变化；下半部分表示 HRESETn 可以异步拉低，但应在 HCLK 上升沿后同步释放。复位期间 HTRANS 为 IDLE，HREADYOUT 为高。</desc>
+  <defs>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#2f80ed"/>
+    </marker>
+    <marker id="arrow-orange" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#d97706"/>
+    </marker>
+    <style>
+      .title { font: 700 32px Arial, 'Microsoft YaHei', sans-serif; fill: #172033; }
+      .subtitle { font: 700 23px Arial, 'Microsoft YaHei', sans-serif; fill: #172033; }
+      .label { font: 600 20px Consolas, 'Microsoft YaHei', monospace; fill: #172033; }
+      .body { font: 18px Arial, 'Microsoft YaHei', sans-serif; fill: #3f4a5f; }
+      .small { font: 16px Arial, 'Microsoft YaHei', sans-serif; fill: #566176; }
+      .clock { fill: none; stroke: #26364f; stroke-width: 4; stroke-linejoin: round; }
+      .signal { fill: none; stroke: #2f80ed; stroke-width: 5; stroke-linejoin: round; }
+      .ready { fill: none; stroke: #20a464; stroke-width: 5; stroke-linejoin: round; }
+      .guide { stroke: #9aa5b5; stroke-width: 2; stroke-dasharray: 7 8; }
+      .divider { stroke: #d6dce6; stroke-width: 2; }
+    </style>
+  </defs>
+
+  <rect width="1400" height="760" rx="20" fill="#ffffff"/>
+  <rect x="28" y="28" width="1344" height="704" rx="16" fill="#f8fafc" stroke="#d7dee9" stroke-width="2"/>
+  <text x="70" y="80" class="title">AHB 时钟采样与复位时序</text>
+  <text x="70" y="113" class="small">学习示意图：用于解释 IHI 0033C §7.1，不是原规范配图；波形不按实际时间比例绘制。</text>
+
+  <text x="70" y="165" class="subtitle">A. HCLK 的基本边沿规则</text>
+  <text x="70" y="224" class="label">HCLK</text>
+  <path class="clock" d="M220 240 H290 V195 H360 V240 H430 V195 H500 V240 H570 V195 H640 V240 H710 V195 H780 V240 H850 V195 H920 V240 H990 V195 H1060 V240 H1130 V195 H1200 V240 H1290"/>
+  <line x1="290" y1="180" x2="290" y2="322" class="guide"/>
+  <line x1="430" y1="180" x2="430" y2="322" class="guide"/>
+  <line x1="570" y1="180" x2="570" y2="322" class="guide"/>
+  <line x1="710" y1="180" x2="710" y2="322" class="guide"/>
+  <line x1="850" y1="180" x2="850" y2="322" class="guide"/>
+  <line x1="990" y1="180" x2="990" y2="322" class="guide"/>
+  <line x1="1130" y1="180" x2="1130" y2="322" class="guide"/>
+  <text x="70" y="298" class="body">输入</text>
+  <path class="signal" d="M220 305 H430 L445 275 H710 L725 305 H990 L1005 275 H1290"/>
+  <text x="70" y="350" class="body">输出</text>
+  <path class="ready" d="M220 357 H454 L469 327 H734 L749 357 H1014 L1029 327 H1290"/>
+  <path d="M430 152 V185" stroke="#2f80ed" stroke-width="3" marker-end="url(#arrow-blue)"/>
+  <text x="340" y="146" class="small">输入在上升沿采样</text>
+  <path d="M469 370 V337" stroke="#20a464" stroke-width="3" marker-end="url(#arrow-blue)"/>
+  <text x="486" y="386" class="small">输出在上升沿后变化</text>
+
+  <line x1="70" y1="420" x2="1330" y2="420" class="divider"/>
+  <text x="70" y="470" class="subtitle">B. HRESETn：允许异步拉低，必须同步释放</text>
+  <text x="70" y="535" class="label">HCLK</text>
+  <path class="clock" d="M220 550 H290 V505 H360 V550 H430 V505 H500 V550 H570 V505 H640 V550 H710 V505 H780 V550 H850 V505 H920 V550 H990 V505 H1060 V550 H1130 V505 H1200 V550 H1290"/>
+  <line x1="290" y1="492" x2="290" y2="695" class="guide"/>
+  <line x1="430" y1="492" x2="430" y2="695" class="guide"/>
+  <line x1="570" y1="492" x2="570" y2="695" class="guide"/>
+  <line x1="710" y1="492" x2="710" y2="695" class="guide"/>
+  <line x1="850" y1="492" x2="850" y2="695" class="guide"/>
+  <line x1="990" y1="492" x2="990" y2="695" class="guide"/>
+  <line x1="1130" y1="492" x2="1130" y2="695" class="guide"/>
+
+  <text x="70" y="610" class="label">HRESETn</text>
+  <path class="signal" d="M220 575 H375 V640 H1130 V575 H1290"/>
+  <path d="M375 510 V564" stroke="#d97706" stroke-width="3" marker-end="url(#arrow-orange)"/>
+  <text x="255" y="498" class="small" fill="#d97706">异步断言：不必等待时钟边沿</text>
+  <path d="M1130 668 V648" stroke="#2f80ed" stroke-width="3" marker-end="url(#arrow-blue)"/>
+  <text x="1010" y="694" class="small" fill="#2f80ed">在上升沿后同步释放</text>
+
+  <rect x="430" y="650" width="560" height="48" rx="9" fill="#fff4df" stroke="#edb45d" stroke-width="2"/>
+  <text x="456" y="681" class="body">复位保持 N 个周期：N 的最小值由组件定义</text>
+  <text x="70" y="724" class="small">复位期间：Manager 令 HTRANS=IDLE，其他地址/控制为确定合法值（非 X/Z）；Subordinate 令 HREADYOUT=HIGH。</text>
+</svg>
